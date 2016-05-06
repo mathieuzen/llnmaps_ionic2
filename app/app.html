@@ -1,16 +1,25 @@
-<ion-menu [content]="content">
+<ion-menu id="menu" [content]="content" drag-content="false">
 
-  <ion-toolbar>
-    <ion-title>LLN Maps</ion-title>
-  </ion-toolbar>
+    <ion-toolbar primary>
+        <ion-title>LLN Maps</ion-title>
+    </ion-toolbar>
 
-  <ion-content>
-    <ion-list>
-      <button menuClose ion-item *ngFor="#p of pages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
-    </ion-list>
-  </ion-content>
+    <ion-content>
+        <ion-list>
+            <ion-list-header>
+                Modes
+            </ion-list-header>
+            <button menuClose ion-item *ngFor="#m of modes" (click)="openPage(m)">
+                <ion-icon primary name="{{m.icon}}" item-left></ion-icon>{{m.title}}
+            </button>
+            <ion-list-header>
+                About
+            </ion-list-header>
+                        <button menuClose ion-item *ngFor="#p of aboutPages" (click)="openPage(p)">
+                <ion-icon primary name="{{p.icon}}" item-left></ion-icon>{{p.title}}
+            </button>
+        </ion-list>
+    </ion-content>
 
 </ion-menu>
 

@@ -1,14 +1,14 @@
 import {App, IonicApp, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {MapsPage} from './pages/maps/maps';
-import {ListPage} from './pages/list/list';
+import {CompassPage} from './pages/compass/compass';
 import {Component, OnInit} from 'angular2/core';
 
 
 
 @App({
   templateUrl: 'build/app.html',
-  config: {} // http://ionicframework.com/docs/v2/api/config/Config/
+  config: {}
 })
 class MyApp {
   static get parameters() {
@@ -21,13 +21,19 @@ class MyApp {
 
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Maps', component: MapsPage },
-      { title: 'List', component: ListPage }
+    this.modes = [
+      { title: 'Maps', icon:'map', component: MapsPage },
+      { title: 'Compass', icon:'compass',component: CompassPage }
+    ];
+      
+    this.aboutPages = [
+      { title: 'Help', icon:'help-circle', component: null },
+      { title: 'Info', icon:'information-circle',component: null },
+      { title: 'Rate', icon:'star'}
     ];
 
     this.rootPage = MapsPage;
+      
   }
 
   initializeApp() {
@@ -36,7 +42,7 @@ class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
     });
-  }
+    }
 
   openPage(page) {
     // Reset the content nav to have just this page

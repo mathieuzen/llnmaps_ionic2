@@ -1,0 +1,32 @@
+<ion-navbar id="search" *navbar hideBackButton primary>
+    <ion-searchbar [(ngModel)]="searchQuery" (input)="getItems($event)">
+    </ion-searchbar>
+    <ion-buttons end>
+        <button (click)="close()">
+            <ion-icon light name="close"></ion-icon>
+        </button>
+    </ion-buttons>
+</ion-navbar>
+<ion-toolbar primary padding>
+    <ion-segment [(ngModel)]="pet">
+        <ion-segment-button style="color: white;" value="halls">
+            Halls
+        </ion-segment-button>
+        <ion-segment-button style="color: white;" value="shops">
+            Shops
+        </ion-segment-button>
+        <ion-segment-button style="color: white;" value="entertainment">
+            Ent.
+        </ion-segment-button>
+        <ion-segment-button style="color: white;" value="transport">
+            Transport
+        </ion-segment-button>
+    </ion-segment>
+</ion-toolbar>
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="#item of items">
+            {{ item }}
+        </ion-item>
+    </ion-list>
+</ion-content>
