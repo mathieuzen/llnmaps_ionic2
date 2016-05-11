@@ -34,3 +34,43 @@
     -o-transition: 0.5s ease-in-out;
     transition: 0.5s ease-in-out;
 }
+
+.awesome-marker{
+     -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;   
+}
+
+.name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.id {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.miniature {
+  float: right;
+  object-fit: scale-down; /* Do not scale the image */
+  object-position: center; /* Center the image within the element */
+  height: 60px;
+  width: 80px
+}
+
+.leaflet-label{
+ color: red;   
+}
+
+.info {
+    float: left;
+    width: 140px;
+}
+
+.marker-icon{
+    padding-top: 2px;
+    font-size: 12px !important;   
+}

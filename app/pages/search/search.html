@@ -8,7 +8,7 @@
     </ion-buttons>
 </ion-navbar>
 <ion-toolbar primary padding>
-    <ion-segment [(ngModel)]="pet">
+    <ion-segment [(ngModel)]="segment" (change)="changeItems($event)">
         <ion-segment-button style="color: white;" value="halls">
             Halls
         </ion-segment-button>
@@ -26,7 +26,12 @@
 <ion-content>
     <ion-list>
         <ion-item *ngFor="#item of items">
-            {{ item }}
+    <div class="info">
+        <div class="id">{{item.id}}</div>
+        <div class="name">{{item.name}}</div>
+        <p class="address">{{item.address}}</p>
+    </div>
+    <img class="miniature" src="img/buildings/{{item.id}}.jpg">
         </ion-item>
     </ion-list>
 </ion-content>

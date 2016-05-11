@@ -10,11 +10,20 @@
   <link ios-href="build/css/app.ios.css" rel="stylesheet">
   <link md-href="build/css/app.md.css" rel="stylesheet">
   <link wp-href="build/css/app.wp.css" rel="stylesheet">  
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />
+  <link rel="stylesheet" href="lib/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="lib/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="lib/leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" />
+    
+
+
 </head>
 <body>
 
   <ion-app></ion-app>
+  <script src="lib/leaflet/dist/leaflet.js"></script>
+  <script src="lib/leaflet.markercluster/dist/leaflet.markercluster.js"></script> 
+  <script src="lib/leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script> 
 
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
@@ -24,7 +33,5 @@
   <script src="build/js/angular2-polyfills.js"></script>
   <!-- the bundle which is built from the app's source code -->
   <script src="build/js/app.bundle.js"></script>
-<script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script> 
-
 </body>
 </html>
