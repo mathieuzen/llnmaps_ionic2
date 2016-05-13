@@ -21,28 +21,28 @@
             </p>
         </ion-card-content>
         <ion-list>
-            <button ion-item>
-                <ion-icon name="ionic" item-left></ion-icon>
+            <button (click)="launch('Ionic','http://ionicframework.com/')" ion-item>
+                <ion-icon style="color: blue;" name="ionic" item-left></ion-icon>
                 Ionic
             </button>
 
-            <button ion-item>
-                <ion-icon name="ios-leaf" item-left></ion-icon>
+            <button (click)="launch('Leaflet','http://leafletjs.com/')" ion-item>
+                <ion-icon style="color: green;" name="ios-leaf" item-left></ion-icon>
                 Leaflet
             </button>
 
-            <button ion-item>
-                <ion-icon name="search" item-left></ion-icon>
-                OpenStreetMaps
+            <button (click)="launch('OpenStreetMap','http://osm.be/fr')" ion-item>
+                <ion-icon style="color: brown;" name="search" item-left></ion-icon>
+                OpenStreetMap
             </button>
 
-            <button ion-item>
-                <ion-icon name="ios-navigate" item-left></ion-icon>
+            <button (click)="launch('Leaflet Routing Machine','http://www.liedman.net/leaflet-routing-machine/')" ion-item>
+                <ion-icon style="color: darkgrey;" name="ios-navigate" item-left></ion-icon>
                 Leaflet Routing Machine
             </button>
 
-            <button ion-item>
-                <ion-icon name="ios-locate" item-left></ion-icon>
+            <button (click)="launch('OSRM','http://project-osrm.org/')" ion-item>
+                <ion-icon style="color: orange;" name="ios-locate" item-left></ion-icon>
                 OSRM
             </button>
 

@@ -36,10 +36,10 @@
 }
 
 .awesome-marker{
-     -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;   
+     -webkit-transition: 0.5s ease-in-out;
+    -moz-transition:  0.5s ease-in-out;
+    -o-transition:  0.5s ease-in-out;
+    transition:  0.5s ease-in-out;   
 }
 
 .name {
@@ -73,4 +73,19 @@
 .marker-icon{
     padding-top: 2px;
     font-size: 12px !important;   
+}
+
+.logo{
+ display: inline-block; 
+ height: 50px;
+ float: left;
+ padding-left: 20px;
+}
+
+#menu-toolbar{
+ min-height: 10rem;   
+}
+
+#title{
+ line-height: 2.5;   
 }

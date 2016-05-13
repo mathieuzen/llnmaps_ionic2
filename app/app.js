@@ -2,6 +2,10 @@ import {App, IonicApp, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {MapsPage} from './pages/maps/maps';
 import {CompassPage} from './pages/compass/compass';
+import {HelpPage} from './pages/help/help';
+import {InfoPage} from './pages/info/info';
+
+
 import {Component, OnInit} from 'angular2/core';
 
 
@@ -27,8 +31,8 @@ class MyApp {
     ];
       
     this.aboutPages = [
-      { title: 'Help', icon:'help-circle', component: null },
-      { title: 'Info', icon:'information-circle',component: null },
+      { title: 'Help', icon:'help-circle', component: HelpPage },
+      { title: 'Info', icon:'information-circle',component: InfoPage },
       { title: 'Rate', icon:'star'}
     ];
 
