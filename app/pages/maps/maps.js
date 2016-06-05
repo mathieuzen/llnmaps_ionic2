@@ -1,5 +1,5 @@
 import {
-    Page, Modal, NavController, ViewController, MenuController, NavParams
+    Page, Modal, NavController, ViewController, MenuController, NavParams, DynamicComponentLoader
 }
 from 'ionic-angular';
 import {
@@ -10,22 +10,26 @@ import {
     BuildingsService
 }
 from '../buildings/buildings.service';
-
+import {
+    Popup
+}
+from '../buildings/popup';
 
 @
 Page({
     templateUrl: 'build/pages/maps/maps.html',
-    providers: [BuildingsService]
+    providers: [[BuildingsService], [Popup]]
 })
 export class MapsPage {
     static get parameters() {
-        return [[NavController], [MenuController], [BuildingsService], [NavParams]];
+        return [[NavController], [MenuController], [BuildingsService], [NavParams], [Popup]];
     }
-    constructor(nav, menu, buildings, params) {
+    constructor(nav, menu, buildings, params, popup) {
         this.nav = nav;
         this.menu = menu;
         this.buildings = buildings;
         this.params = params;
+        this.popup = popup;
         //default location to center on if no user plotted 
         this.station = L.marker([50.669591, 4.615706]);
 
@@ -63,19 +67,14 @@ export class MapsPage {
                         iconAnchor: [18, 45],
                         extraClasses: 'marker-icon'
                     }),
-                    id: 'test'
+                    id: building.id
                 });
-                buildingMarker.bindPopup('test');
+
+                buildingMarker.bindPopup(new L.popup({
+                    minWidth: 200
+                }).setContent(popup.getContent(building.id, building.name, building.address)));
                 this.cluster.addLayer(buildingMarker);
             }
-        }
-
-        this.openMarker(id, map) {
-            map.setZoomAround(this.cluster.getLayers()[0].getLatLng(), 18);
-            var marker = this.cluster.getLayers()[0];
-            setTimeout(function () {
-                marker.openPopup();
-            }, 1000);
         }
     }
 
@@ -87,6 +86,14 @@ export class MapsPage {
             fadeAnimation: true,
             zoomAnimation: true
         }).setView(this.station.getLatLng(), 14);
+
+        map.on('popupopen', function (e) {
+            var px = map.project(e.popup._latlng); // find the pixel location on the map where the popup anchor is
+            px.y -= e.popup._container.clientHeight / 2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+            map.panTo(map.unproject(px), {
+                animate: true
+            }); // pan to new center
+        });
 
         var layer = new L.tileLayer('img/tiles/{z}/{x}/{y}.jpg', {
             maxZoom: 18,
