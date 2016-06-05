@@ -91,5 +91,23 @@
 }
 
 .leaflet-popup-content-wrapper{
- border-radius: 0 !important;   
+ border-radius: 0 !important;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background:linear-gradient(#387ef5 14%, white 14%) !important;
+bacgkround: -webkit-linear-gradient(#387ef5 14%, white 14%) !important;
+}
+
+.popup-title{
+ color: white;
+ font-weight: bold;
+ margin-bottom: 40px !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: white !important;
+  font-weight: normal !important;
+        top: 15px !important;
+    right: 10px !important;
+    font-size: 20px !important;
 }

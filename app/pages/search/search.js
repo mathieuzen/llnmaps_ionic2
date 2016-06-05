@@ -10,7 +10,7 @@ from '../buildings/buildings.service';
 @
 Page({
     templateUrl: 'build/pages/search/search.html',
-    providers: [BuildingsService]
+    providers: [[BuildingsService]]
 })
 export class SearchModal {
     static get parameters() {
@@ -64,5 +64,9 @@ export class SearchModal {
             }
             return false;
         })
+    }
+
+    select(id) {
+        this.viewCtrl.dismiss(id);
     }
 }

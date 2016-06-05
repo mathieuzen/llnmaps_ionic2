@@ -30,6 +30,7 @@ export class MapsPage {
         this.buildings = buildings;
         this.params = params;
         this.popup = popup;
+        this.markers = {};
         //default location to center on if no user plotted 
         this.station = L.marker([50.669591, 4.615706]);
 
@@ -74,7 +75,15 @@ export class MapsPage {
                     minWidth: 200
                 }).setContent(popup.getContent(building.id, building.name, building.address)));
                 this.cluster.addLayer(buildingMarker);
+                this.markers[building.id] = buildingMarker;
             }
+        }
+
+        this.findMarker = function (id) {
+            var activeMarker = this.markers[id];
+            this.cluster.zoomToShowLayer(activeMarker, function () {
+               activeMarker.openPopup();
+            });
         }
     }
 
@@ -88,11 +97,11 @@ export class MapsPage {
         }).setView(this.station.getLatLng(), 14);
 
         map.on('popupopen', function (e) {
-            var px = map.project(e.popup._latlng); // find the pixel location on the map where the popup anchor is
-            px.y -= e.popup._container.clientHeight / 2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+            var px = map.project(e.popup._latlng); 
+            px.y -= e.popup._container.clientHeight / 2 
             map.panTo(map.unproject(px), {
                 animate: true
-            }); // pan to new center
+            });
         });
 
         var layer = new L.tileLayer('img/tiles/{z}/{x}/{y}.jpg', {
@@ -117,6 +126,9 @@ export class MapsPage {
     showModal() {
         let modal = Modal.create(SearchModal);
         this.nav.present(modal)
+        modal.onDismiss(id => {
+            this.findMarker(id);
+        });
     }
 
 }
