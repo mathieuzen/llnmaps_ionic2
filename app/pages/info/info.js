@@ -6,11 +6,11 @@ import {
     DetailPage
 }
 from './detail/detail';
-
+import { Component } from '@angular/core';
 
 
 @
-Page({
+Component({
     templateUrl: 'build/pages/info/info.html'
 })
 export class InfoPage {

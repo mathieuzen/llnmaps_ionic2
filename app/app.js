@@ -1,28 +1,32 @@
-import {App, IonicApp, Platform} from 'ionic-angular';
+import {App, ionicBootstrap, Platform, Nav} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {MapsPage} from './pages/maps/maps';
 import {CompassPage} from './pages/compass/compass';
 import {HelpPage} from './pages/help/help';
 import {InfoPage} from './pages/info/info';
+import {Routing} from './providers/routing/routing.service'
+import {Geolocation} from './providers/geolocation/geolocation.service'
 
 
-import {Component, OnInit} from 'angular2/core';
+
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 
 
-@App({
+@Component({
   templateUrl: 'build/app.html',
-  config: {}
+    queries: {
+    nav: new ViewChild('content')
+  }
 })
 class MyApp {
   static get parameters() {
-    return [[IonicApp], [Platform]];
+    return [[App], [Platform]];
   }
 
   constructor(app, platform) {
     this.app = app;
     this.platform = platform;
-
     this.initializeApp();
 
     this.modes = [
@@ -51,7 +55,10 @@ class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    let nav = this.app.getComponent('nav');
-    nav.setRoot(page.component);
+    if(!(page.title === "Maps" && this.nav.getActive().instance instanceof MapsPage))
+    this.nav.setRoot(page.component);
   }
 }
+
+ionicBootstrap(MyApp, [[Routing], [Geolocation]], {});
+

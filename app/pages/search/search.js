@@ -5,10 +5,10 @@ from 'ionic-angular';
 import {
     BuildingsService
 }
-from '../buildings/buildings.service';
-
+from '../../providers/buildings/buildings.service';
+import { Component } from '@angular/core';
 @
-Page({
+Component({
     templateUrl: 'build/pages/search/search.html',
     providers: [[BuildingsService]]
 })
@@ -46,12 +46,12 @@ export class SearchModal {
         this.viewCtrl.dismiss();
     }
 
-    getItems(searchbar) {
+    getItems(ev) {
         // Reset items back to all of the items
         this.segment = "";
         this.items = this.buildings.getAll();
         // set q to the value of the searchbar
-        var q = searchbar.value;
+        var q = ev.target.value;
 
         // if the value is an empty string don't filter the items
         if (q.trim() == '') {

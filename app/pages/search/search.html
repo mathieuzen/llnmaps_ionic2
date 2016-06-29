@@ -1,4 +1,5 @@
-<ion-navbar id="search" *navbar hideBackButton primary>
+<ion-header>
+<ion-navbar id="search" hideBackButton primary>
     <ion-searchbar [(ngModel)]="searchQuery" (input)="getItems($event)">
     </ion-searchbar>
     <ion-buttons end>
@@ -8,24 +9,25 @@
     </ion-buttons>
 </ion-navbar>
 <ion-toolbar primary padding>
-    <ion-segment [(ngModel)]="segment" (change)="changeItems($event)">
-        <ion-segment-button style="color: white;" value="halls">
+    <ion-segment [(ngModel)]="segment" (ionChange)="changeItems($event)">
+        <ion-segment-button value="halls">
             Halls
         </ion-segment-button>
-        <ion-segment-button style="color: white;" value="shops">
+        <ion-segment-button value="shops">
             Shops
         </ion-segment-button>
-        <ion-segment-button style="color: white;" value="entertainment">
+        <ion-segment-button value="entertainment">
             Ent.
         </ion-segment-button>
-        <ion-segment-button style="color: white;" value="transport">
+        <ion-segment-button value="transport">
             Transport
         </ion-segment-button>
     </ion-segment>
 </ion-toolbar>
+</ion-header>
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="#item of items" (click)="select(item.id)">
+        <ion-item *ngFor="let item of items" (click)="select(item.id)">
     <div class="info">
         <div class="id">{{item.id}}</div>
         <div class="name">{{item.name}}</div>

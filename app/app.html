@@ -10,13 +10,13 @@
             <ion-list-header>
                 Modes
             </ion-list-header>
-            <button menuClose ion-item *ngFor="#m of modes" (click)="openPage(m)">
+            <button menuClose ion-item *ngFor="let m of modes" (click)="openPage(m)">
                 <ion-icon primary name="{{m.icon}}" item-left></ion-icon>{{m.title}}
             </button>
             <ion-list-header>
                 About
             </ion-list-header>
-            <button menuClose ion-item *ngFor="#p of aboutPages" (click)="openPage(p)">
+            <button menuClose ion-item *ngFor="let p of aboutPages" (click)="openPage(p)">
                 <ion-icon primary name="{{p.icon}}" item-left></ion-icon>{{p.title}}
             </button>
         </ion-list>
