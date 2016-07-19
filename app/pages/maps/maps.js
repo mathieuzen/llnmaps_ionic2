@@ -2,7 +2,10 @@ import {
     Page, Modal, NavController, ViewController, MenuController, NavParams, DynamicComponentLoader
 }
 from 'ionic-angular';
-import { Component } from '@angular/core';
+import {
+    Component
+}
+from '@angular/core';
 import {
     SearchModal
 }
@@ -25,10 +28,10 @@ import {
 from '../../providers/buildings/popup';
 
 @
-    Component({
-        templateUrl: 'build/pages/maps/maps.html',
-        providers: [[BuildingsService], [Popup], [Geolocation], [Routing]]
-    })
+Component({
+    templateUrl: 'build/pages/maps/maps.html',
+    providers: [[BuildingsService], [Popup], [Geolocation], [Routing]]
+})
 export class MapsPage {
     static get parameters() {
         return [[NavController], [MenuController], [BuildingsService], [NavParams], [Popup], [Geolocation], [Routing]];
@@ -68,6 +71,7 @@ export class MapsPage {
             disableClusteringAtZoom: 17,
             spiderfyOnMaxZoom: false,
             showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
             maxClusterRadius: 40
         });
 
@@ -116,16 +120,26 @@ export class MapsPage {
 
 
         map.on('popupopen', function (e) {
-            var px = map.project(e.popup._latlng);
+            
+            var A = user.getLatLng();
+            var B = e.popup._latlng;
+            
+            var px = map.project(B);
             px.y -= e.popup._container.clientHeight / 1.5
             map.panTo(map.unproject(px), {
                 animate: true
             });
-            routing.getTimeBetween(user.getLatLng(), e.popup.getLatLng()).then((time) => {
+            routing.getTimeBetween(A,B).then((time) => {
                 var min = Math.floor(time / 60);
                 var sec = Math.floor(time % 60);
                 e.popup._contentNode.children[0].children[4].children[0].innerHTML = " " + min + " min " + sec + " sec";
             });
+
+            let goButton = document.getElementById('btnGo');
+            goButton.onclick = ((e) => {
+                routing.getRouteBetween(A, B, map);
+            });
+
         });
 
         var layer = new L.tileLayer('img/tiles/{z}/{x}/{y}.jpg', {
@@ -157,5 +171,4 @@ export class MapsPage {
             this.findMarker(id);
         });
     }
-
 }

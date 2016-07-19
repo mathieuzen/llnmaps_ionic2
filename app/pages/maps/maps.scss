@@ -111,3 +111,11 @@ bacgkround: -webkit-linear-gradient(#387ef5 14%, white 14%) !important;
     right: 10px !important;
     font-size: 20px !important;
 }
+
+#map > scroll-content {
+    display: none;   
+}
+
+.leaflet-right .leaflet-routing-container.leaflet-routing-container-hide {
+    display: none;
+}

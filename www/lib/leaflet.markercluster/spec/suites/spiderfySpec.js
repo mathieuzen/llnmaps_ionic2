@@ -27,7 +27,7 @@
 	afterEach(function () {
 
 		if (group instanceof L.MarkerClusterGroup) {
-			group.removeLayers(group.getLayers());
+			group.clearLayers();
 			map.removeLayer(group);
 		}
 
@@ -95,10 +95,8 @@
 
 		marker.__parent.spiderfy();
 
-		// Leaflet 1.0.0 now uses an intermediate L.Renderer.
-		// marker > _path > _rootGroup (g) > _container (svg) > pane (div)
-		expect(marker._path.parentNode.parentNode.parentNode).to.be(map.getPane('overlayPane'));
-		expect(marker2._path.parentNode.parentNode.parentNode).to.be(map.getPane('overlayPane'));
+		expect(marker._container.parentNode).to.be(map._pathRoot);
+		expect(marker2._container.parentNode).to.be(map._pathRoot);
 	});
 
 	it('Spiderfies 2 Circles', function () {
@@ -114,8 +112,8 @@
 
 		marker.__parent.spiderfy();
 
-		expect(marker._path.parentNode.parentNode.parentNode).to.be(map.getPane('overlayPane'));
-		expect(marker2._path.parentNode.parentNode.parentNode).to.be(map.getPane('overlayPane'));
+		expect(marker._container.parentNode).to.be(map._pathRoot);
+		expect(marker2._container.parentNode).to.be(map._pathRoot);
 	});
 
 	it('Spiderfies at current zoom if all child markers are at the exact same position', function () {
@@ -138,7 +136,7 @@
 
 		expect(zoom).to.be.lessThan(10);
 
-		cluster.fireEvent('click', null, true);
+		cluster.fireEvent('click');
 
 		clock.tick(1000);
 
@@ -171,7 +169,7 @@
 
 		expect(zoom).to.be.lessThan(10);
 
-		cluster.fireEvent('click', null, true);
+		cluster.fireEvent('click');
 
 		clock.tick(1000);
 
@@ -195,7 +193,7 @@
 		marker.__parent.spiderfy();
 
 		expect(map._panes.markerPane.childNodes.length).to.be(3); // The 2 markers + semi-transparent cluster.
-		expect(map.getPane('overlayPane').firstChild.firstChild.childNodes.length).to.be(2); // The 2 spider legs.
+		expect(map._pathRoot.childNodes.length).to.be(2); // The 2 spider legs.
 
 	});
 
