@@ -47,8 +47,8 @@ export class Routing {
             },
             lineOptions: {
                 addWaypoints: false
-            }
-
+            },
+            fitSelectedRoutes: true
         });
         this.control.addTo(map);
         this.control.hide();

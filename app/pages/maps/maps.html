@@ -1,21 +1,26 @@
 <ion-header>
-<ion-navbar primary>
-  <button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-  <ion-buttons end>
-    <button (click)="showModal()">
-      <ion-icon light name="search"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-buttons end>
+            <button (click)="showSearch()">
+                <ion-icon light name="search"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 
 <ion-content id='map'>
 </ion-content>
 
-<ion-footer>
-<ion-toolbar>
-  <ion-title (click)="showModal()">Itinerary</ion-title>
-</ion-toolbar>
+<ion-footer [hidden]="!showToolbar">
+    <ion-toolbar>
+        <button class="footer-button" clear (click)="showItinerary()">
+            <ion-icon name="list"></ion-icon>
+            Itinerary</button>
+        <button class="footer-button" clear (click)="showItinerary()">
+            <ion-icon name="compass"></ion-icon>
+            Compass</button>
+    </ion-toolbar>
 </ion-footer>

@@ -1,7 +1,6 @@
 import {App, ionicBootstrap, Platform, Nav} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {MapsPage} from './pages/maps/maps';
-import {CompassPage} from './pages/compass/compass';
 import {HelpPage} from './pages/help/help';
 import {InfoPage} from './pages/info/info';
 import {Routing} from './providers/routing/routing.service'
@@ -31,7 +30,6 @@ class MyApp {
 
     this.modes = [
       { title: 'Maps', icon:'map', component: MapsPage },
-      { title: 'Compass', icon:'compass',component: CompassPage }
     ];
       
     this.aboutPages = [

@@ -29,3 +29,10 @@
 // App Material Design Only Sass
 // --------------------------------------------------
 // CSS that should only apply to the Material Design app
+.itinerary-bar {
+    padding-top: 8px !important;
+}
+
+ion-footer{
+    border-top: 0.3px solid lightgray !important;  
+}

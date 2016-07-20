@@ -11,6 +11,10 @@ import {
 }
 from '../search/search';
 import {
+    ItineraryModal
+}
+from '../itinerary/itinerary';
+import {
     BuildingsService
 }
 from '../../providers/buildings/buildings.service';
@@ -45,6 +49,7 @@ export class MapsPage {
         this.markers = {};
         this.geolocation = geolocation;
         this.routing = routing;
+        this.showToolbar = false;
         //default location to center on if no user plotted 
         this.station = L.marker([50.669591, 4.615706]);
 
@@ -104,10 +109,13 @@ export class MapsPage {
                 activeMarker.openPopup();
             });
         }
+        
     }
 
     ngOnInit() {
-
+        
+        var mapsPage = this;
+                
         var routing = this.routing;
         var user = this.user;
 
@@ -117,19 +125,19 @@ export class MapsPage {
             fadeAnimation: true,
             zoomAnimation: true
         }).setView(this.station.getLatLng(), 14);
-
+        
 
         map.on('popupopen', function (e) {
-            
+                    
             var A = user.getLatLng();
             var B = e.popup._latlng;
-            
+
             var px = map.project(B);
             px.y -= e.popup._container.clientHeight / 1.5
             map.panTo(map.unproject(px), {
                 animate: true
             });
-            routing.getTimeBetween(A,B).then((time) => {
+            routing.getTimeBetween(A, B).then((time) => {
                 var min = Math.floor(time / 60);
                 var sec = Math.floor(time % 60);
                 e.popup._contentNode.children[0].children[4].children[0].innerHTML = " " + min + " min " + sec + " sec";
@@ -138,6 +146,8 @@ export class MapsPage {
             let goButton = document.getElementById('btnGo');
             goButton.onclick = ((e) => {
                 routing.getRouteBetween(A, B, map);
+                mapsPage.showToolbar = true;
+                map.closePopup();
             });
 
         });
@@ -164,11 +174,19 @@ export class MapsPage {
     }
 
 
-    showModal() {
+    showSearch() {
         let modal = Modal.create(SearchModal);
         this.nav.present(modal)
         modal.onDismiss(id => {
             this.findMarker(id);
+        });
+    }
+
+    showItinerary() {
+        let modal = Modal.create(ItineraryModal);
+        this.nav.present(modal)
+        modal.onDismiss(id => {
+
         });
     }
 }
