@@ -21,6 +21,7 @@ export class Routing {
         this.http = http;
         this.router = L.Routing.osrm();
         this.control = null;
+        this.itinerary = null;
     }
 
     getTimeBetween(A, B) {
@@ -34,8 +35,9 @@ export class Routing {
         });
     }
 
-    getRouteBetween(A, B, map) {
-        if(this.control !== null){
+    getRouteBetween(A, B, map, navigation) {
+      console.log(navigation);
+        if(this.control !== null  && navigation){
             map.removeControl(this.control);
         }
         let waypoints = [L.latLng(A.lat, A.lng), L.latLng(B.lat, B.lng)];
@@ -48,9 +50,17 @@ export class Routing {
             lineOptions: {
                 addWaypoints: false
             },
-            fitSelectedRoutes: true
+            fitSelectedRoutes: true,
+            formatter: new L.Routing.Formatter({language: 'fr'})
         });
         this.control.addTo(map);
         this.control.hide();
     }
+
+   getItinerary() {
+     return this.control._container.outerHTML;
+    }
+       getControl() {
+         return this.control;
+        }
 }

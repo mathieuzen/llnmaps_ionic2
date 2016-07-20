@@ -15,6 +15,10 @@ import {
 }
 from '../itinerary/itinerary';
 import {
+    CompassModal
+}
+from '../compass/compass';
+import {
     BuildingsService
 }
 from '../../providers/buildings/buildings.service';
@@ -49,8 +53,9 @@ export class MapsPage {
         this.markers = {};
         this.geolocation = geolocation;
         this.routing = routing;
-        this.showToolbar = false;
-        //default location to center on if no user plotted 
+        this.map = null;
+        this.navigation = false;
+        //default location to center on if no user plotted
         this.station = L.marker([50.669591, 4.615706]);
 
         this.plotUser = function (position, map) {
@@ -109,13 +114,13 @@ export class MapsPage {
                 activeMarker.openPopup();
             });
         }
-        
+
     }
 
     ngOnInit() {
-        
+
         var mapsPage = this;
-                
+
         var routing = this.routing;
         var user = this.user;
 
@@ -125,10 +130,10 @@ export class MapsPage {
             fadeAnimation: true,
             zoomAnimation: true
         }).setView(this.station.getLatLng(), 14);
-        
+
 
         map.on('popupopen', function (e) {
-                    
+
             var A = user.getLatLng();
             var B = e.popup._latlng;
 
@@ -145,8 +150,8 @@ export class MapsPage {
 
             let goButton = document.getElementById('btnGo');
             goButton.onclick = ((e) => {
-                routing.getRouteBetween(A, B, map);
-                mapsPage.showToolbar = true;
+                routing.getRouteBetween(A, B, map, mapsPage.navigation);
+                mapsPage.navigation = true;
                 map.closePopup();
             });
 
@@ -169,6 +174,8 @@ export class MapsPage {
             user = this.user;
         });
 
+        this.map = map;
+
         this.plotBuildings(map);
 
     }
@@ -183,10 +190,19 @@ export class MapsPage {
     }
 
     showItinerary() {
-        let modal = Modal.create(ItineraryModal);
+        var instructions = this.routing.getItinerary();
+        let modal = Modal.create(ItineraryModal, {instructions: instructions});
         this.nav.present(modal)
-        modal.onDismiss(id => {
+    }
 
-        });
+    showCompass(){
+        let modal = Modal.create(CompassModal, {});
+        this.nav.present(modal)
+    }
+
+    cancelNavigation(){
+      this.map.removeControl(this.routing.getControl());
+      this.navigation = false;
+      this.map.setView(this.station.getLatLng(), 14);
     }
 }

@@ -3,6 +3,7 @@ import {StatusBar} from 'ionic-native';
 import {MapsPage} from './pages/maps/maps';
 import {HelpPage} from './pages/help/help';
 import {InfoPage} from './pages/info/info';
+import {SettingsPage} from './pages/settings/settings';
 import {Routing} from './providers/routing/routing.service'
 import {Geolocation} from './providers/geolocation/geolocation.service'
 
@@ -30,8 +31,9 @@ class MyApp {
 
     this.modes = [
       { title: 'Maps', icon:'map', component: MapsPage },
+      { title: 'Settings', icon:'settings', component: SettingsPage },
     ];
-      
+
     this.aboutPages = [
       { title: 'Help', icon:'help-circle', component: HelpPage },
       { title: 'Info', icon:'information-circle',component: InfoPage },
@@ -39,7 +41,7 @@ class MyApp {
     ];
 
     this.rootPage = MapsPage;
-      
+
   }
 
   initializeApp() {
@@ -59,4 +61,3 @@ class MyApp {
 }
 
 ionicBootstrap(MyApp, [[Routing], [Geolocation]], {});
-

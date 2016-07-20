@@ -3,6 +3,9 @@
         <button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
+        <button id="cancelNav" [hidden]="!navigation" block clear light (click)="cancelNavigation()">
+          Cancel Navigation
+        </button>
         <ion-buttons end>
             <button (click)="showSearch()">
                 <ion-icon light name="search"></ion-icon>
@@ -14,12 +17,12 @@
 <ion-content id='map'>
 </ion-content>
 
-<ion-footer [hidden]="!showToolbar">
+<ion-footer [hidden]="!navigation">
     <ion-toolbar>
         <button class="footer-button" clear (click)="showItinerary()">
             <ion-icon name="list"></ion-icon>
             Itinerary</button>
-        <button class="footer-button" clear (click)="showItinerary()">
+        <button class="footer-button" clear (click)="showCompass()">
             <ion-icon name="compass"></ion-icon>
             Compass</button>
     </ion-toolbar>

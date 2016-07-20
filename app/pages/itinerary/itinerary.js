@@ -1,5 +1,5 @@
 import {
-    Page, Modal, NavController, ViewController
+    Page, Modal, NavController, ViewController, NavParams
 }
 from 'ionic-angular';
 import { Component } from '@angular/core';
@@ -9,15 +9,14 @@ Component({
 })
 export class ItineraryModal {
     static get parameters() {
-        return [[ViewController]];
+        return [[ViewController], [NavParams]];
     }
-    constructor(viewCtrl) {
+    constructor(viewCtrl, params) {
         this.viewCtrl = viewCtrl;
+        this.instructions = params.get('instructions');
+        this.itineraryContainer = this.instructions;
     }
     close() {
         this.viewCtrl.dismiss();
-    }
-    select(id) {
-        this.viewCtrl.dismiss(id);
     }
 }
