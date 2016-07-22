@@ -3,6 +3,10 @@ import {
 }
 from '@angular/core';
 import {
+    TRANSLATE_PROVIDERS, TranslateService, TranslatePipe, TranslateLoader, TranslateStaticLoader
+}
+from 'ng2-translate/ng2-translate';
+import {
     Http
 }
 from '@angular/http';
@@ -13,15 +17,16 @@ import 'rxjs/add/operator/map';
 Injectable()
 export class Routing {
     static get parameters() {
-        return [[Http]]
+        return [[Http],[TranslateService]]
     }
 
-    constructor(http) {
+    constructor(http, translate) {
         this.server = "router.project-osrm.org";
         this.http = http;
         this.router = L.Routing.osrm();
         this.control = null;
         this.itinerary = null;
+        this.translate = translate;
     }
 
     getTimeBetween(A, B) {
@@ -36,10 +41,8 @@ export class Routing {
     }
 
     getRouteBetween(A, B, map, navigation) {
-      console.log(navigation);
-        if(this.control !== null  && navigation){
+        if (this.control !== null && navigation)
             map.removeControl(this.control);
-        }
         let waypoints = [L.latLng(A.lat, A.lng), L.latLng(B.lat, B.lng)];
         this.control = L.Routing.control({
             waypoints: waypoints,
@@ -50,17 +53,28 @@ export class Routing {
             lineOptions: {
                 addWaypoints: false
             },
-            fitSelectedRoutes: true,
-            formatter: new L.Routing.Formatter({language: 'fr'})
+            fitSelectedRoutes: 'true',
+            formatter: new L.Routing.Formatter({
+                language: this.translate.currentLang
+            })
         });
         this.control.addTo(map);
         this.control.hide();
     }
 
-   getItinerary() {
-     return this.control._container.outerHTML;
+    getItinerary() {
+        return this.control._container.outerHTML;
     }
-       getControl() {
-         return this.control;
-        }
+    getControl() {
+        return this.control;
+    }
+
+    getPlan() {
+        return this.control.getPlan();
+    }
+
+    disableFitSelectedRoutes() {
+        this.control.options.fitSelectedRoutes = false;
+    }
+
 }

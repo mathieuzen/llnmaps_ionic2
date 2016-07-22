@@ -26,10 +26,7 @@ import {
     Routing
 }
 from './providers/routing/routing.service'
-import {
-    Geolocation
-}
-from './providers/geolocation/geolocation.service'
+import {Geolocation} from 'ionic-native';
 import {
     Settings
 }

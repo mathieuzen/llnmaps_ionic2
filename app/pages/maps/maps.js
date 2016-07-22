@@ -25,7 +25,7 @@ from '../../providers/buildings/buildings.service';
 import {
     Geolocation
 }
-from '../../providers/geolocation/geolocation.service';
+from 'ionic-native';
 import {
     Routing
 }
@@ -42,35 +42,35 @@ from '../../providers/buildings/popup';
 @
 Component({
     templateUrl: 'build/pages/maps/maps.html',
-    providers: [[BuildingsService], [Popup], [Geolocation], [Routing]]
+    providers: [[BuildingsService], [Popup], [Routing]]
 })
 export class MapsPage {
     static get parameters() {
-        return [[NavController], [MenuController], [BuildingsService], [NavParams], [Popup], [Geolocation], [Routing], [Settings]];
+        return [[NavController], [MenuController], [BuildingsService], [NavParams], [Popup], [Routing], [Settings]];
     }
-    constructor(nav, menu, buildings, params, popup, geolocation, routing, settings) {
+    constructor(nav, menu, buildings, params, popup, routing, settings) {
         this.nav = nav;
         this.menu = menu;
         this.buildings = buildings;
         this.params = params;
         this.popup = popup;
         this.markers = {};
-        this.geolocation = geolocation;
         this.routing = routing;
         this.settings = {};
         this.settingsService = settings;
         this.map = null;
         this.navigation = false;
+        this.destination = null;
         this.footerAnimation = "slideOut"
-        //default location to center on if no user plotted
+            //default location to center on if no user plotted
         this.station = L.marker([50.669591, 4.615706]);
-        
+
         //observe changes in settings
         this.settingsService.settingsChange.subscribe((settings) => {
-           this.settings = settings; 
-           console.log(this.settings);
+            this.settings = settings;
+            console.log(this.settings);
         });
-        
+
         this.plotUser = function (position, map) {
             var userIcon = L.divIcon({
                 html: '<img src="img/arrow.png"/>',
@@ -163,6 +163,7 @@ export class MapsPage {
 
             let goButton = document.getElementById('btnGo');
             goButton.onclick = ((e) => {
+                mapsPage.destination = B;
                 routing.getRouteBetween(A, B, map, mapsPage.navigation);
                 mapsPage.navigation = true;
                 mapsPage.footerAnimation = "slideIn";
@@ -183,10 +184,23 @@ export class MapsPage {
 
         this.menu.swipeEnable(false);
 
-        this.geolocation.getUserLocation().then((position) => {
-            this.plotUser([position.latitude, position.longitude], map);
+        Geolocation.getCurrentPosition().then((position) => {
+            this.plotUser([position.coords.latitude, position.coords.longitude], map);
             user = this.user;
         });
+
+        let watch = Geolocation.watchPosition();
+        watch.subscribe((position) => {
+            var userPosition = [position.coords.latitude, position.coords.longitude];
+            if (this.user.getLatLng().lat !== position.coords.latitude || this.user.getLatLng().lng !== position.coords.longitude) {
+                this.user.setLatLng(userPosition);
+                if (this.navigation) {
+                    routing.disableFitSelectedRoutes();
+                    this.routing.getControl().setWaypoints([this.user.getLatLng(), this.destination]);
+                }
+            }
+
+        })
 
         this.map = map;
 
@@ -205,19 +219,21 @@ export class MapsPage {
 
     showItinerary() {
         var instructions = this.routing.getItinerary();
-        let modal = Modal.create(ItineraryModal, {instructions: instructions});
+        let modal = Modal.create(ItineraryModal, {
+            instructions: instructions
+        });
         this.nav.present(modal)
     }
 
-    showCompass(){
+    showCompass() {
         let modal = Modal.create(CompassModal, {});
         this.nav.present(modal)
     }
 
-    cancelNavigation(){
-      this.map.removeControl(this.routing.getControl());
-      this.navigation = false;
-      this.map.setView(this.station.getLatLng(), 14);
-      this.footerAnimation = "slideOut"
+    cancelNavigation() {
+        this.map.removeControl(this.routing.getControl());
+        this.navigation = false;
+        this.map.setView(this.station.getLatLng(), 14);
+        this.footerAnimation = "slideOut"
     }
 }

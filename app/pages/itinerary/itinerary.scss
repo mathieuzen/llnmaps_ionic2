@@ -1,5 +1,6 @@
 .leaflet-routing-container {
     height: 100%;
+    width: 100% !important;
     font-size: 12px;
       border: none !important;
       box-shadow: none !important;
@@ -22,3 +23,8 @@
 .leaflet-routing-collapse-btn{
   display: none !important;
 }
+
+#itinerary-container > div > div > div > table {
+ margin: auto;   
+}
+    
