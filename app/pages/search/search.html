@@ -1,6 +1,6 @@
 <ion-header>
 <ion-navbar id="search" hideBackButton primary>
-    <ion-searchbar [(ngModel)]="searchQuery" (input)="getItems($event)">
+    <ion-searchbar [(ngModel)]="searchQuery" (input)="getItems($event)" placeholder="{{'search' | translate }}">
     </ion-searchbar>
     <ion-buttons end>
         <button (click)="close()">
@@ -11,16 +11,16 @@
 <ion-toolbar primary padding>
     <ion-segment [(ngModel)]="segment" (ionChange)="changeItems($event)">
         <ion-segment-button value="halls">
-            Halls
+             {{'halls' | translate }}
         </ion-segment-button>
         <ion-segment-button value="shops">
-            Shops
+             {{'shops' | translate }}
         </ion-segment-button>
         <ion-segment-button value="entertainment">
-            Ent.
+             {{'entertainement' | translate }}
         </ion-segment-button>
         <ion-segment-button value="transport">
-            Transport
+             {{'transport' | translate }}
         </ion-segment-button>
     </ion-segment>
 </ion-toolbar>

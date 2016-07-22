@@ -8,16 +8,16 @@
     <ion-content>
         <ion-list>
             <ion-list-header>
-                Modes
+                {{'modes' | translate }}
             </ion-list-header>
             <button menuClose ion-item *ngFor="let m of modes" (click)="openPage(m)">
-                <ion-icon primary name="{{m.icon}}" item-left></ion-icon>{{m.title}}
+                <ion-icon primary name="{{m.icon}}" item-left></ion-icon>{{m.title | translate }}
             </button>
             <ion-list-header>
-                About
+                 {{'about' | translate }}
             </ion-list-header>
             <button menuClose ion-item *ngFor="let p of aboutPages" (click)="openPage(p)">
-                <ion-icon primary name="{{p.icon}}" item-left></ion-icon>{{p.title}}
+                <ion-icon primary name="{{p.icon}}" item-left></ion-icon>{{p.title | translate}}
             </button>
         </ion-list>
     </ion-content>

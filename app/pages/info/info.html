@@ -1,10 +1,10 @@
 <ion-header>
-<ion-navbar primary>
-    <button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Info</ion-title>
-</ion-navbar>
+    <ion-navbar primary>
+        <button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>{{'info' | translate}}</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content>
@@ -12,15 +12,14 @@
         <img src="img/playstoreimage.png" />
         <ion-card-content>
             <p>
-                LLN Maps purpose is to help you find your way in Louvain-la-Neuve. The app is mainly targeted to students with preset auditoriums location. However, it is possible to add your own custom locations on the map.
+                {{'description' | translate}}
             </p>
         </ion-card-content>
     </ion-card>
     <ion-card>
         <ion-card-content>
             <p>
-                LLN Maps makes use of the following open source projects:
-            </p>
+                {{'acknowledgment' | translate}} </p>
         </ion-card-content>
         <ion-list>
             <button (click)="launch('Ionic','http://ionicframework.com/')" ion-item>

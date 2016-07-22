@@ -1,27 +1,27 @@
 .maps {
-
-  p {
-    margin: 20px 0;
-    line-height: 22px;
-    font-size: 16px;
-  }
-
+    p {
+        margin: 20px 0;
+        line-height: 22px;
+        font-size: 16px;
+    }
 }
-#search .toolbar-content{
+
+#search .toolbar-content {
     min-width: 90%;
 }
 
-.segment-button{
- border-color: lightgray;
- opacity: 0.75;
+.segment-button {
+    border-color: lightgray;
+    opacity: 0.75;
 }
 
-.segment-button.activated, .segment-button.segment-activated{
- border-color: white;   
+.segment-button.activated,
+.segment-button.segment-activated {
+    border-color: white;
 }
 
 .toolbar ion-searchbar .searchbar-input {
-    background: rgba(255,255, 255, 1);
+    background: rgba(255, 255, 255, 1);
 }
 
 .user-icon img {
@@ -35,11 +35,11 @@
     transition: 0.5s ease-in-out;
 }
 
-.awesome-marker{
-     -webkit-transition: 0.5s ease-in-out;
-    -moz-transition:  0.5s ease-in-out;
-    -o-transition:  0.5s ease-in-out;
-    transition:  0.5s ease-in-out;   
+.awesome-marker {
+    -webkit-transition: 0.5s ease-in-out;
+    -moz-transition: 0.5s ease-in-out;
+    -o-transition: 0.5s ease-in-out;
+    transition: 0.5s ease-in-out;
 }
 
 .name {
@@ -54,15 +54,17 @@
 }
 
 .miniature {
-  float: right;
-  object-fit: scale-down; /* Do not scale the image */
-  object-position: center; /* Center the image within the element */
-  height: 60px;
-  width: 80px
+    float: right;
+    object-fit: scale-down;
+    /* Do not scale the image */
+    object-position: center;
+    /* Center the image within the element */
+    height: 60px;
+    width: 80px
 }
 
-.leaflet-label{
- color: red;   
+.leaflet-label {
+    color: red;
 }
 
 .info {
@@ -70,58 +72,75 @@
     width: 140px;
 }
 
-.marker-icon{
+.marker-icon {
     padding-top: 2px;
-    font-size: 12px !important;   
+    font-size: 12px !important;
 }
 
-.logo{
- display: inline-block; 
- height: 50px;
- float: left;
- padding-left: 20px;
+.logo {
+    display: inline-block;
+    height: 50px;
+    float: left;
+    padding-left: 20px;
 }
 
-#menu-toolbar{
- min-height: 10rem;   
+#menu-toolbar {
+    min-height: 10rem;
 }
 
-#title{
- line-height: 2.5;   
+#title {
+    line-height: 2.5;
 }
 
-.leaflet-popup-content-wrapper{
- border-radius: 0 !important;
-}
-.leaflet-popup-content-wrapper, .leaflet-popup-tip {
-    background:linear-gradient(#387ef5 14%, white 14%) !important;
-bacgkround: -webkit-linear-gradient(#387ef5 14%, white 14%) !important;
+.leaflet-popup-content-wrapper {
+    border-radius: 0 !important;
 }
 
-.popup-title{
- color: white;
- font-weight: bold;
- margin-bottom: 40px !important;
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background: linear-gradient(#387ef5 14%, white 14%) !important;
+    bacgkround: -webkit-linear-gradient(#387ef5 14%, white 14%) !important;
+}
+
+.popup-title {
+    color: white;
+    font-weight: bold;
+    margin-bottom: 40px !important;
 }
 
 .leaflet-container a.leaflet-popup-close-button {
-  color: white !important;
-  font-weight: normal !important;
-        top: 15px !important;
+    color: white !important;
+    font-weight: normal !important;
+    top: 15px !important;
     right: 10px !important;
     font-size: 20px !important;
 }
 
 #map > scroll-content {
-    display: none;   
+    display: none;
 }
 
 .leaflet-right .leaflet-routing-container.leaflet-routing-container-hide {
     display: none;
 }
 
-.footer-button{
+.footer-button {
     width: 49%;
     margin: auto;
     text-align: center;
+}
+
+ion-footer {
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+.slideIn {
+    margin-bottom: 0px;
+}
+
+.slideOut {
+    margin-bottom: -400px;
 }

@@ -10,11 +10,11 @@
 <ion-content>
     <ion-list>
   <ion-item>
-    <ion-label>Language</ion-label>
-    <ion-select [(ngModel)]="language">
-      <ion-option value="en">English</ion-option>
-      <ion-option value="fr">French</ion-option>
-      <ion-option value="nl">Dutch</ion-option>
+    <ion-label>{{'language' | translate }}</ion-label>
+    <ion-select (ionChange)="settingsService.setLanguage(settings.language)" [(ngModel)]="settings.language">
+      <ion-option value="en">{{'en' | translate }}</ion-option>
+      <ion-option value="fr">{{'fr' | translate }}</ion-option>
+      <ion-option value="nl">{{'nl' | translate }}</ion-option>
     </ion-select>
   </ion-item>
 </ion-list>
