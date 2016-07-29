@@ -79,7 +79,6 @@ export class MapsPage {
         //observe changes in settings
         this.settingsService.settingsChange.subscribe((settings) => {
             this.settings = settings;
-            console.log(this.settings);
         });
 
         this.plotUser = function (position, map) {
@@ -178,7 +177,6 @@ export class MapsPage {
             });
 
             let goButton = document.getElementById('btnGo');
-            console.log(mapsPage.preventNavigation);
             if (mapsPage.preventNavigation) {
                 goButton.setAttribute("disabled", true);
             } else {
@@ -193,7 +191,7 @@ export class MapsPage {
             });
 
         });
-
+        
         var layer = new L.tileLayer('img/tiles/{z}/{x}/{y}.jpg', {
             maxZoom: 18,
             minZoom: 13,
@@ -293,9 +291,11 @@ export class MapsPage {
                 }
             } else {
                 var userPosition = [position.coords.latitude, position.coords.longitude];
-                this.bearing.computeRotation(this.user.getLatLng(), L.latLng(userPosition));
+                var newPosition = L.latLng(userPosition);
+                var oldPosition = this.user.getLatLng();
                 if (this.user.getLatLng().lat !== position.coords.latitude || this.user.getLatLng().lng !== position.coords.longitude) {
                     this.user.setLatLng(userPosition);
+                    this.bearing.computeRotation(oldPosition, newPosition);
                     if (this.navigation) {
                         this.routing.disableFitSelectedRoutes();
                         this.routing.getControl().setWaypoints([this.user.getLatLng(), this.destination]);
