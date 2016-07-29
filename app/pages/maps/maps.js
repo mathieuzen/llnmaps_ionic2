@@ -1,5 +1,5 @@
 import {
-    Page, Modal, NavController, ViewController, MenuController, NavParams, DynamicComponentLoader
+    Page, Modal, NavController, ViewController, MenuController, NavParams, DynamicComponentLoader, Alert
 }
 from 'ionic-angular';
 import {
@@ -23,9 +23,13 @@ import {
 }
 from '../../providers/buildings/buildings.service';
 import {
-    Geolocation
+    Geolocation, DeviceOrientation, Splashscreen
 }
 from 'ionic-native';
+import {
+    Bearing
+}
+from '../../providers/bearing/bearing.service';
 import {
     Routing
 }
@@ -46,9 +50,9 @@ Component({
 })
 export class MapsPage {
     static get parameters() {
-        return [[NavController], [MenuController], [BuildingsService], [NavParams], [Popup], [Routing], [Settings]];
+        return [[NavController], [MenuController], [BuildingsService], [NavParams], [Popup], [Routing], [Bearing], [Settings]];
     }
-    constructor(nav, menu, buildings, params, popup, routing, settings) {
+    constructor(nav, menu, buildings, params, popup, routing, bearing, settings) {
         this.nav = nav;
         this.menu = menu;
         this.buildings = buildings;
@@ -56,14 +60,21 @@ export class MapsPage {
         this.popup = popup;
         this.markers = {};
         this.routing = routing;
+        this.bearing = bearing;
+        this.bounds = {
+            northWest: [50.687210, 4.580998],
+            southEast: [50.637300, 4.650758]
+        }
         this.settings = {};
         this.settingsService = settings;
         this.map = null;
+        this.user = null;
         this.navigation = false;
         this.destination = null;
         this.footerAnimation = "slideOut"
             //default location to center on if no user plotted
         this.station = L.marker([50.669591, 4.615706]);
+        this.preventNavigation = true;
 
         //observe changes in settings
         this.settingsService.settingsChange.subscribe((settings) => {
@@ -78,6 +89,7 @@ export class MapsPage {
                 opacity: 0
             });
             this.user = new L.Marker(position).setIcon(userIcon).addTo(map);
+            this.bearing.setWatch(this.map, this.user);
         }
 
         this.setUserPosition = function (position) {
@@ -128,6 +140,10 @@ export class MapsPage {
             });
         }
 
+        this.isNavigationDisabled = function () {
+            return this.preventNavigation;
+        }
+
     }
 
     ngOnInit() {
@@ -147,11 +163,11 @@ export class MapsPage {
 
         map.on('popupopen', function (e) {
 
-            var A = user.getLatLng();
+            var A = mapsPage.user.getLatLng();
             var B = e.popup._latlng;
 
             var px = map.project(B);
-            px.y -= e.popup._container.clientHeight / 1.5
+            px.y -= e.popup._container.clientHeight / 1
             map.panTo(map.unproject(px), {
                 animate: true
             });
@@ -162,6 +178,12 @@ export class MapsPage {
             });
 
             let goButton = document.getElementById('btnGo');
+            console.log(mapsPage.preventNavigation);
+            if (mapsPage.preventNavigation) {
+                goButton.setAttribute("disabled", true);
+            } else {
+                goButton.setAttribute("enabled", true);
+            }
             goButton.onclick = ((e) => {
                 mapsPage.destination = B;
                 routing.getRouteBetween(A, B, map, mapsPage.navigation);
@@ -184,26 +206,9 @@ export class MapsPage {
 
         this.menu.swipeEnable(false);
 
-        Geolocation.getCurrentPosition().then((position) => {
-            this.plotUser([position.coords.latitude, position.coords.longitude], map);
-            user = this.user;
-        });
-
-        let watch = Geolocation.watchPosition();
-        watch.subscribe((position) => {
-            var userPosition = [position.coords.latitude, position.coords.longitude];
-            if (this.user.getLatLng().lat !== position.coords.latitude || this.user.getLatLng().lng !== position.coords.longitude) {
-                this.user.setLatLng(userPosition);
-                if (this.navigation) {
-                    routing.disableFitSelectedRoutes();
-                    this.routing.getControl().setWaypoints([this.user.getLatLng(), this.destination]);
-                }
-            }
-
-        })
+        this.startGeolocation(true);
 
         this.map = map;
-
         this.plotBuildings(map);
 
     }
@@ -226,7 +231,9 @@ export class MapsPage {
     }
 
     showCompass() {
-        let modal = Modal.create(CompassModal, {});
+        let modal = Modal.create(CompassModal, {
+            destination: this.destination
+        });
         this.nav.present(modal)
     }
 
@@ -236,4 +243,66 @@ export class MapsPage {
         this.map.setView(this.station.getLatLng(), 14);
         this.footerAnimation = "slideOut"
     }
+
+    isInLLN(position) {
+        return position.latitude > this.bounds.southEast[0] && position.latitude < this.bounds.northWest[0] && position.longitude > this.bounds.northWest[1] && position.longitude < this.bounds.southEast[1];
+    }
+
+    alertNotInLLN() {
+        let alert = Alert.create({
+            title: 'Not in LLN',
+            subTitle: 'Your position is outside Louvain-la-Neuve. You may still be able to explore the map but routing is disabled.',
+            buttons: ['OK']
+        });
+        setTimeout(() => {
+            this.nav.present(alert);
+        }, 2000);
+    }
+
+    alertNoGPS() {
+
+        let alert = Alert.create({
+            title: 'No GPS enabled',
+            subTitle: 'We cannot find your position. Please enable GPS on your phone.',
+            buttons: [{
+                text: 'OK',
+                handler: () => {
+                    this.startGeolocation(false);
+                }
+            }]
+        });
+        setTimeout(() => {
+            this.nav.present(alert);
+        }, 2000);
+    }
+
+    startGeolocation(alert) {
+        let watchPosition = Geolocation.watchPosition({
+            maximumAge: Infinity,
+            timeout: 15000,
+            enableHighAccuracy: true
+        });
+        watchPosition.subscribe((position) => {
+            if (this.user == null) {
+                this.plotUser([position.coords.latitude, position.coords.longitude], this.map);
+                if (this.isInLLN(position.coords)) {
+                    this.preventNavigation = false;
+                } else {
+                    this.preventNavigation = true;
+                    this.alertNotInLLN();
+                }
+            } else {
+                var userPosition = [position.coords.latitude, position.coords.longitude];
+                this.bearing.computeRotation(this.user.getLatLng(), L.latLng(userPosition));
+                if (this.user.getLatLng().lat !== position.coords.latitude || this.user.getLatLng().lng !== position.coords.longitude) {
+                    this.user.setLatLng(userPosition);
+                    if (this.navigation) {
+                        this.routing.disableFitSelectedRoutes();
+                        this.routing.getControl().setWaypoints([this.user.getLatLng(), this.destination]);
+                    }
+                }
+            }
+        });
+    }
+
 }

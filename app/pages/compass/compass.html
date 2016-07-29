@@ -7,5 +7,12 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <div id="compass-container"></div>
+    <div id="compass-container">
+        <div class="compass">
+            <div class="cell">
+                <img id="circleCompass" [ngStyle]="{'transform' : 'rotate('+compassRotation+'deg'}" src="img/circleCompass.png" />
+                <img id="arrowCompass" style="position: absolute; top:0; bottom: 0; right:0; left: 0; margin: auto;" src="img/arrowBig.png" />
+            </div>
+        </div>
+    </div>
 </ion-content>

@@ -13,13 +13,6 @@ export var SHOPS = [{
         type: "shop"
       },
     {
-        id: "RENMANS",
-        name: "Boucherie Renmans",
-        pos: L.latLng(50.662734, 4.613737),
-        address: "Avenue des Musiciens",
-        type: "shop"
-      },
-    {
         id: "PHARMACIE",
         name: "Centre Pharmaceutique de LLN",
         pos: L.latLng(50.668956, 4.615002),

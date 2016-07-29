@@ -26,7 +26,14 @@ import {
     Routing
 }
 from './providers/routing/routing.service'
-import {Geolocation} from 'ionic-native';
+import {
+    Bearing
+}
+from './providers/bearing/bearing.service';
+import {
+    Geolocation, Splashscreen
+}
+from 'ionic-native';
 import {
     Settings
 }
@@ -40,8 +47,6 @@ import {
     TRANSLATE_PROVIDERS, TranslateService, TranslatePipe, TranslateLoader, TranslateStaticLoader
 }
 from 'ng2-translate/ng2-translate';
-
-
 import {
     Component, OnInit, ViewChild, PLATFORM_PIPES
 }
@@ -110,15 +115,23 @@ class MyApp {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             StatusBar.styleDefault();
+            setTimeout(() => {
+                Splashscreen.hide();
+            }, 2000);
+
         });
     }
 
     openPage(page) {
         // Reset the content nav to have just this page
         // we wouldn't want the back button to show in this scenario
-        if (!(page.title === "Maps" && this.nav.getActive().instance instanceof MapsPage))
+        if (!(page.title === "maps" && this.nav.getActive().instance instanceof MapsPage))
             this.nav.setRoot(page.component);
     }
 }
 
-ionicBootstrap(MyApp, [[Routing], [Geolocation], [Settings], [HTTP_PROVIDERS], [TRANSLATE_PROVIDERS], [{provide: PLATFORM_PIPES, useValue: TranslatePipe, multi: true}]], {});
+ionicBootstrap(MyApp, [[Routing], [Geolocation], [Bearing], [Settings], [HTTP_PROVIDERS], [TRANSLATE_PROVIDERS], [{
+    provide: PLATFORM_PIPES,
+    useValue: TranslatePipe,
+    multi: true
+}]], {});
