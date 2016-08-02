@@ -6,13 +6,52 @@
         <ion-title class="itinerary-bar">{{'compass' | translate}}</ion-title>
     </ion-toolbar>
 </ion-header>
+
 <ion-content>
-    <div id="compass-container">
-        <div class="compass">
-            <div class="cell">
-                <img id="circleCompass" [ngStyle]="{'transform' : 'rotate('+compassRotation+'deg'}" src="img/circleCompass.png" />
-                <img id="arrowCompass" style="position: absolute; top:0; bottom: 0; right:0; left: 0; margin: auto;" src="img/arrowBig.png" />
+
+    <ion-card style="height:95%;">
+
+        <ion-item style="height: 20%;">
+            <ion-thumbnail item-left>
+                <img style="max-width: 14rem; max-height: 10rem;" src="img/buildings/{{building.id}}.jpg">
+            </ion-thumbnail>
+            <h2>{{building.name}}</h2>
+            <p>{{building.address}}</p>
+        </ion-item>
+
+        <ion-card-content id="compass-card" style="position: relative; height: 70%; border-bottom: 1px solid lightgrey; border-top: 1px solid lightgrey;">
+            <div id="compass-container">
+                <div class="compass">
+                    <div class="cell">
+                        <span id="north"></span>
+                        <img id="circleCompass" [ngStyle]="{'transform' : 'rotate('+compassRotation+'deg'}" src="img/circleCompass.png" />
+                        <img id="arrowCompass" style="position: absolute; top:0; bottom: 0; right:0; left: 0; margin: auto;" src="img/arrowBig.png" />
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        </ion-card-content>
+
+        <ion-row style="height: 10%;">
+            <ion-col bottom>
+                <button primary clear small>
+                    <ion-icon name="timer"></ion-icon>
+                    <div>12 min 10 sec</div>
+                </button>
+            </ion-col>
+            <ion-col bottom>
+                <button primary clear small>
+                    <ion-icon name="walk"></ion-icon>
+                    <div>1.5 km</div>
+                </button>
+            </ion-col>
+            <ion-col bottom>
+                <button primary clear small>
+                    <ion-icon name="home"></ion-icon>
+                    <div style="text-transform: capitalize;">{{building.type}}</div>
+                </button>
+            </ion-col>
+        </ion-row>
+
+    </ion-card>
+
 </ion-content>

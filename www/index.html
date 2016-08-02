@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
+
 <head>
-  <title>Ionic</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
+    <title>Ionic</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
 
-  <link ios-href="build/css/app.ios.css" rel="stylesheet">
-  <link md-href="build/css/app.md.css" rel="stylesheet">
-  <link wp-href="build/css/app.wp.css" rel="stylesheet">  
-  <link rel="stylesheet" href="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.css" />
-  <link rel="stylesheet" href="lib/leaflet.markercluster/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="lib/leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="lib/leaflet-routing-machine-3.0.3/dist/leaflet-routing-machine.css"/>
-    
-
-
+    <link ios-href="build/css/app.ios.css" rel="stylesheet">
+    <link md-href="build/css/app.md.css" rel="stylesheet">
+    <link wp-href="build/css/app.wp.css" rel="stylesheet">
+    <link rel="stylesheet" href="lib/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="lib/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="lib/leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
+    <link rel="stylesheet" href="lib/font-awesome-4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="lib/leaflet-routing-machine-3.0.3/dist/leaflet-routing-machine.css" />
 </head>
+
 <body>
 
-  <ion-app></ion-app>
-    
-  <!-- cordova.js required for cordova apps -->
-  <script src="cordova.js"></script>
-    
-  <script src="lib/leaflet/dist/leaflet-src.js"></script>
-  <script src="lib/leaflet.markercluster/dist/leaflet.markercluster.js"></script> 
-  <script src="lib/leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
-<script src="lib/leaflet-routing-machine-3.0.3/dist/leaflet-routing-machine.js"</script>
+    <ion-app></ion-app>
 
+    <!-- cordova.js required for cordova apps -->
+    <script src="cordova.js"></script>
 
-  <!-- Polyfill needed for platforms without Promise and Collection support -->
-  <script src="build/js/es6-shim.min.js"></script>
-  <!-- Zone.js and Reflect-metadata  -->
-  <script src="build/js/angular2-polyfills.js"></script>
-  <!-- the bundle which is built from the app's source code -->
-  <script src="build/js/app.bundle.js"></script>
+    <script src="lib/leaflet/dist/leaflet-src.js"></script>
+    <script src="lib/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <script src="lib/leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+    <script src="lib/leaflet-routing-machine-3.0.3/dist/leaflet-routing-machine.js" </script>
+        <!-- Polyfill needed for platforms without Promise and Collection support -->
+        < script src = "build/js/es6-shim.min.js" >
+    </script>
+    <!-- Zone.js and Reflect-metadata  -->
+    <script src="build/js/angular2-polyfills.js"></script>
+    <!-- the bundle which is built from the app's source code -->
+    <script src="build/js/app.bundle.js"></script>
 </body>
+
 </html>

@@ -30,6 +30,7 @@ export class Bearing {
         this.destination = null;
         this.value = 0;
         this.valueWatch = new Subject();
+        this.rotationWatch = new Subject();
     }
 
     setWatch(map, user) {
@@ -38,6 +39,9 @@ export class Bearing {
         if (window.cordova) {
             this.watch = DeviceOrientation.watchHeading(this.options).subscribe((heading) => {
                 this.cssRotation(heading.magneticHeading);
+                this.rotation = heading.magneticHeading;
+                this.noCompass = false;
+                this.rotationWatch.next(this.rotation);
                 if (this.destination != null)
                     this.getBearing();
             });
@@ -90,6 +94,10 @@ export class Bearing {
         }
         if (this.noCompass) {
             this.rotation = this.getBearing(oldPos, newPos);
+            this.rotationWatch.next(this.rotation);
+            if (this.destination) {
+                this.getBearing();
+            } 
             this.cssRotation(this.rotation);
         }
     }
@@ -97,7 +105,7 @@ export class Bearing {
     cssRotation(heading) {
         var pattern = /rotate\(\d+deg\)/g;
         this.correctRotation(heading);
-        if (this.rotation != 0) {
+        if (this.rotation != null) {
             if (this.user._icon.style.transform.indexOf("rotate") == -1) {
                 this.user._icon.style.transform += " rotate(" + Math.round(this.rotation) + "deg)";
             } else {

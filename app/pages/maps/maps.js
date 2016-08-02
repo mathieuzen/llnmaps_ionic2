@@ -56,6 +56,7 @@ export class MapsPage {
         this.nav = nav;
         this.menu = menu;
         this.buildings = buildings;
+        this.activeBuilding = null;
         this.params = params;
         this.popup = popup;
         this.markers = {};
@@ -110,6 +111,7 @@ export class MapsPage {
         });
 
         this.plotBuildings = function (map) {
+            var mapsPage = this;
             map.addLayer(this.cluster);
             for (let building of this.buildings.getAll()) {
                 var buildingMarker = new L.Marker(building.pos, {
@@ -121,7 +123,11 @@ export class MapsPage {
                         iconAnchor: [18, 45],
                         extraClasses: 'marker-icon'
                     }),
-                    id: building.id
+                    building: building
+                });
+
+                buildingMarker.on('click', function (e) {
+                    mapsPage.activeBuilding = e.target.options.building;
                 });
 
                 buildingMarker.bindPopup(new L.popup({
@@ -133,10 +139,23 @@ export class MapsPage {
         }
 
         this.findMarker = function (id) {
+            if(activeMarker)
+            activeMarker.closePopup();
             var activeMarker = this.markers[id];
-            this.cluster.zoomToShowLayer(activeMarker, function () {
-                activeMarker.openPopup();
+            var timer = 0;
+            if(this.map.getZoom() > 14){
+            this.map.setZoom(14,{animate: true});
+                timer = 1500;
+            }
+            var mapsPage = this;
+            setTimeout(function(){
+            mapsPage.cluster.zoomToShowLayer(activeMarker, function () {
+                setTimeout(function () {
+                    activeMarker.openPopup();
+                }, 500);
             });
+            }, timer);
+            this.activeBuilding = activeMarker.options.building;
         }
 
         this.isNavigationDisabled = function () {
@@ -166,7 +185,7 @@ export class MapsPage {
             var B = e.popup._latlng;
 
             var px = map.project(B);
-            px.y -= e.popup._container.clientHeight / 1
+            px.y -= e.popup._container.clientHeight / 1.5;
             map.panTo(map.unproject(px), {
                 animate: true
             });
@@ -191,7 +210,7 @@ export class MapsPage {
             });
 
         });
-        
+
         var layer = new L.tileLayer('img/tiles/{z}/{x}/{y}.jpg', {
             maxZoom: 18,
             minZoom: 13,
@@ -230,7 +249,8 @@ export class MapsPage {
 
     showCompass() {
         let modal = Modal.create(CompassModal, {
-            destination: this.destination
+            destination: this.destination,
+            building: this.activeBuilding
         });
         this.nav.present(modal)
     }

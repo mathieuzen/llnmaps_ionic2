@@ -1,19 +1,39 @@
 #arrowCompass {
-    max-width: 80px;
-    width: 20%;
+    max-width: 30%;
 }
 
 #circleCompass {
-    -webkit-transition: 1s ease-in-out;
-    -moz-transition: 1s ease-in-out;
-    -o-transition: 1s ease-in-out;
-    transition: 1s ease-in-out;
-    max-width: 180px;
+    -webkit-transition: transform 1s ease-in-out;
+    -moz-transition: transform 1s ease-in-out;
+    -o-transition: transform 1s ease-in-out;
+    transition: transform 1s ease-in-out;
+    max-width: 75%;
     margin: auto;
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
-    width: 50%;
 }
+
+#nav > ion-modal > div > ion-page > ion-content > scroll-content > ion-card > ion-item > div {
+    overflow: visible;
+}
+
+#north {
+    display: block;
+    position: absolute;
+    top: 3%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    height: 10%;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background: url(../../img/lineCompass.png) repeat-x;
+    background-size: 100% 100%;
+    -webkit-transition: all 2s;
+    transition: all 2s;
+}
+
