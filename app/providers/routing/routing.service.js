@@ -21,9 +21,9 @@ export class Routing {
     }
 
     constructor(http, translate) {
-        this.server = "router.project-osrm.org";
+        this.server = "http://zensites.no-ip.biz:5000/viaroute";
         this.http = http;
-        this.router = L.Routing.osrm();
+        this.router = L.Routing.osrm({serviceUrl:this.server});
         this.control = null;
         this.itinerary = null;
         this.translate = translate;
@@ -31,7 +31,7 @@ export class Routing {
 
     getTimeBetween(A, B) {
         return new Promise(resolve => {
-            this.http.get('http://' + this.server + '/viaroute?loc=' + A.lat + ',' + A.lng + '&loc=' + B.lat + ',' + B.lng)
+            this.http.get(this.server + '?loc=' + A.lat + ',' + A.lng + '&loc=' + B.lat + ',' + B.lng)
                 .map(res => res.json())
                 .subscribe(data => {
                     this.data = data;
