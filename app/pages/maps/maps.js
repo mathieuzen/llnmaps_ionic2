@@ -75,6 +75,7 @@ export class MapsPage {
         this.footerAnimation = "slideOut"
             //default location to center on if no user plotted
         this.station = L.marker([50.669591, 4.615706]);
+        this.streetMarker = null;
         this.preventNavigation = true;
 
         //observe changes in settings
@@ -132,28 +133,54 @@ export class MapsPage {
 
                 buildingMarker.bindPopup(new L.popup({
                     minWidth: 200
-                }).setContent(popup.getContent(building.id, building.name, building.address)));
+                }).setContent(this.popup.getContent(building.id, building.name, building.address)));
                 this.cluster.addLayer(buildingMarker);
                 this.markers[building.id] = buildingMarker;
             }
         }
 
+        this.plotStreet = function (item) {
+            if(this.streetMarker != null){
+                this.map.removeLayer(this.streetMarker);
+            }
+            this.streetMarker = new L.Marker(L.latLng([item.lat, item.long]), {
+                icon: L.AwesomeMarkers.icon({
+                    prefix: 'fa',
+                    icon: 'map-pin',
+                    markerColor: 'black',
+                    iconSize: [36, 45],
+                    iconAnchor: [18, 45],
+                    extraClasses: 'marker-icon'
+                }),
+                building: item
+
+            }).addTo(this.map);
+            this.activeBuilding = this.streetMarker;
+            this.streetMarker.bindPopup(new L.popup({
+                minWidth: 200,
+                className: "streetPopup"
+            }).setContent(this.popup.getStreetContent(item.name)));
+            this.streetMarker.openPopup();
+        }
+
         this.findMarker = function (id) {
-            if(activeMarker)
-            activeMarker.closePopup();
+            if (activeMarker)
+                activeMarker.closePopup();
             var activeMarker = this.markers[id];
             var timer = 0;
-            if(this.map.getZoom() > 14){
-            this.map.setZoom(14,{animate: true});
+            if (this.map.getZoom() > 14) {
+                this.map.setZoom(14, {
+                    animate: true
+                });
                 timer = 1500;
             }
             var mapsPage = this;
-            setTimeout(function(){
-            mapsPage.cluster.zoomToShowLayer(activeMarker, function () {
-                setTimeout(function () {
-                    activeMarker.openPopup();
-                }, 500);
-            });
+            setTimeout(function () {
+                mapsPage.cluster.zoomToShowLayer(activeMarker, function () {
+                    setTimeout(function () {
+                        activeMarker.openPopup();
+                    }, 500);
+                });
             }, timer);
             this.activeBuilding = activeMarker.options.building;
         }
@@ -192,7 +219,8 @@ export class MapsPage {
             routing.getTimeBetween(A, B).then((time) => {
                 var min = Math.floor(time / 60);
                 var sec = Math.floor(time % 60);
-                e.popup._contentNode.children[0].children[4].children[0].innerHTML = " " + min + " min " + sec + " sec";
+                var length = e.popup._contentNode.children[0].childElementCount;
+                e.popup._contentNode.children[0].children[length - 2].children[0].innerHTML = " " + min + " min " + sec + " sec";
             });
 
             let goButton = document.getElementById('btnGo');
@@ -234,8 +262,12 @@ export class MapsPage {
     showSearch() {
         let modal = Modal.create(SearchModal);
         this.nav.present(modal)
-        modal.onDismiss(id => {
-            this.findMarker(id);
+        modal.onDismiss(item => {
+            if (item.id != undefined) {
+                this.findMarker(item.id);
+            } else {
+                this.plotStreet(item);
+            }
         });
     }
 

@@ -1,39 +1,46 @@
 <ion-header>
-<ion-navbar id="search" hideBackButton primary>
-    <ion-searchbar [(ngModel)]="searchQuery" (input)="getItems($event)" placeholder="{{'search' | translate }}">
-    </ion-searchbar>
-    <ion-buttons end>
-        <button (click)="close()">
-            <ion-icon light name="close"></ion-icon>
-        </button>
-    </ion-buttons>
-</ion-navbar>
-<ion-toolbar primary padding>
-    <ion-segment [(ngModel)]="segment" (ionChange)="changeItems($event)">
-        <ion-segment-button value="halls">
-             {{'halls' | translate }}
-        </ion-segment-button>
-        <ion-segment-button value="shops">
-             {{'shops' | translate }}
-        </ion-segment-button>
-        <ion-segment-button value="entertainment">
-             {{'entertainement' | translate }}
-        </ion-segment-button>
-        <ion-segment-button value="transport">
-             {{'transport' | translate }}
-        </ion-segment-button>
-    </ion-segment>
-</ion-toolbar>
+    <ion-navbar id="search" hideBackButton primary>
+        <ion-searchbar [(ngModel)]="searchQuery" (input)="getItems($event)" placeholder="{{'search' | translate }}">
+        </ion-searchbar>
+        <ion-buttons end>
+            <button (click)="close()">
+                <ion-icon light name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    <ion-toolbar primary padding>
+        <ion-segment [(ngModel)]="segment" (ionChange)="changeItems($event)">
+            <ion-segment-button value="halls">
+                {{'halls' | translate }}
+            </ion-segment-button>
+            <ion-segment-button value="shops">
+                {{'shops' | translate }}
+            </ion-segment-button>
+            <ion-segment-button value="entertainment">
+                {{'entertainement' | translate }}
+            </ion-segment-button>
+            <ion-segment-button value="transport">
+                {{'transport' | translate }}
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
 </ion-header>
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let item of items" (click)="select(item.id)">
-    <div class="info">
-        <div class="id">{{item.id}}</div>
-        <div class="name">{{item.name}}</div>
-        <p class="address">{{item.address}}</p>
-    </div>
-    <img class="miniature" src="img/buildings/{{item.id}}.jpg">
+        <ion-item *ngFor="let item of items" (click)="select(item)">
+            <span *ngIf="item.id">
+            <div class="info">
+                <div class="id">{{item.id}}</div>
+                <div class="name">{{item.name}}</div>
+                <p class="address">{{item.address}}</p>
+            </div>
+            <img class="miniature" src="img/buildings/{{item.id}}.jpg"/>
+            </span>
+            <span *ngIf="!item.id">
+            <div class="streetInfo">
+                <div class="name">{{item.name}}</div>
+            </div>
+            </span>
         </ion-item>
     </ion-list>
 </ion-content>

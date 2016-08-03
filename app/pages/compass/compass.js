@@ -24,12 +24,18 @@ export class CompassModal {
         this.bearing = bearing;
         this.destination = params.data.destination;
         this.building = {};
-        this.building.id = params.data.building.id;
-        this.building.name = params.data.building.name;
-        this.building.address = params.data.building.address;
-        this.building.type = params.data.building.type;
-        if (this.building.name.length > 30) {
-            this.building.name = this.building.id;
+        if (params.data.building.id != undefined) {
+            this.building.id = params.data.building.id;
+            this.building.name = params.data.building.name;
+            this.building.address = params.data.building.address;
+            this.building.type = params.data.building.type;
+            if (this.building.name.length > 30) {
+                this.building.name = this.building.id;
+            }
+        } else {
+            this.building.name = params.data.building.options.building.name;
+            this.building.type = "street";
+
         }
         this.bearing.setDestination(this.destination);
         this.bearing.valueWatch.subscribe(value => {
@@ -66,7 +72,9 @@ export class CompassModal {
 
     setLineCompassOrientation(heading) {
         var lineCompass = document.getElementById("north");
-        lineCompass.style.backgroundPositionX = (heading / 360 + 0.5) * lineCompass.offsetWidth + "px";
+        if (lineCompass !== null) {
+            lineCompass.style.backgroundPositionX = (heading / 360 + 0.5) * lineCompass.offsetWidth + "px";
+        }
     }
 
 

@@ -527,7 +527,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			this._updateLines({route: route, alternatives: alternatives});
 
 			if (fitBounds) {
-				this._map.fitBounds(this._line.getBounds());
+				this._map.fitBounds(this._line.getBounds(), {padding: [50, 50]});
 			}
 
 			if (this.options.waypointMode === 'snap') {
