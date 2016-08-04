@@ -29,8 +29,10 @@ export class Bearing {
         this.watch = null;
         this.destination = null;
         this.value = 0;
+        this.distance = 0;
         this.valueWatch = new Subject();
         this.rotationWatch = new Subject();
+        this.distanceWatch = new Subject();
     }
 
     setWatch(map, user) {
@@ -69,6 +71,9 @@ export class Bearing {
     toDegrees(angle) {
         return angle * (180 / Math.PI);
     }
+    toRadians(angle) {
+        return angle * (Math.PI / 180);
+    }
 
     getBearing(pos1, pos2) {
         if (typeof pos1 == "undefined" && typeof pos2 == "undefined") {
@@ -97,7 +102,7 @@ export class Bearing {
             this.rotationWatch.next(this.rotation);
             if (this.destination) {
                 this.getBearing();
-            } 
+            }
             this.cssRotation(this.rotation);
         }
     }
@@ -112,5 +117,20 @@ export class Bearing {
                 this.user._icon.style.transform = this.user._icon.style.transform.replace(pattern, "rotate(" + Math.round(this.rotation) + "deg)");
             }
         }
+    }
+
+    computeDistance(pos1, pos2) {
+        const RADIUS = 6371000;
+
+        var phi1 = this.toRadians(pos1.lat);
+        var phi2 = this.toRadians(pos2.lat);
+        var dphi = this.toRadians((pos2.lat - pos1.lat));
+        var dlon = this.toRadians((pos2.lng - pos1.lng));
+
+        var a = Math.sin(dphi / 2) * Math.sin(dphi / 2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(dlon / 2) * Math.sin(dlon / 2);
+
+        var b = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        this.distance = RADIUS * b;
+        this.distanceWatch.next(this.distance);
     }
 }

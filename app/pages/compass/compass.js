@@ -10,10 +10,15 @@ import {
     Bearing
 }
 from '../../providers/bearing/bearing.service';
+import {
+    DistancePipe
+}
+from '../../pipes/distance';
 
 @
 Component({
     templateUrl: 'build/pages/compass/compass.html',
+    pipes: [DistancePipe]
 })
 export class CompassModal {
     static get parameters() {
@@ -46,6 +51,9 @@ export class CompassModal {
             };
         });
         this.bearing.getBearing();
+        this.bearing.computeDistance(this.bearing.user.getLatLng(), this.destination);
+        this.distance = this.bearing.distance;
+
     }
     close() {
         this.viewCtrl.dismiss();
@@ -58,6 +66,9 @@ export class CompassModal {
         this.bearing.rotationWatch.subscribe(rotation => {
             this.setLineCompassOrientation(rotation);
         });
+        this.bearing.distanceWatch.subscribe(distance => {
+            this.distance = distance;
+        });
 
         var compassCard = document.getElementById("compass-card");
         var circleCompass = document.getElementById("circleCompass");
@@ -66,7 +77,6 @@ export class CompassModal {
         if (compassCard.offsetHeight < compassCard.offsetWidth) {
             circleCompass.style.maxWidth = 0.6 * compassCard.offsetHeight + "px";
             arrowCompass.style.maxWidth = 0.3 * compassCard.offsetHeight + "px";
-
         }
     }
 
@@ -76,6 +86,7 @@ export class CompassModal {
             lineCompass.style.backgroundPositionX = (heading / 360 + 0.5) * lineCompass.offsetWidth + "px";
         }
     }
+
 
 
 }

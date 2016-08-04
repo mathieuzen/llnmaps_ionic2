@@ -140,7 +140,7 @@ export class MapsPage {
         }
 
         this.plotStreet = function (item) {
-            if(this.streetMarker != null){
+            if (this.streetMarker != null) {
                 this.map.removeLayer(this.streetMarker);
             }
             this.streetMarker = new L.Marker(L.latLng([item.lat, item.long]), {
@@ -220,7 +220,7 @@ export class MapsPage {
                 var min = Math.floor(time / 60);
                 var sec = Math.floor(time % 60);
                 var length = e.popup._contentNode.children[0].childElementCount;
-                e.popup._contentNode.children[0].children[length - 2].children[0].innerHTML = " " + min + " min " + sec + " sec";
+                e.popup._contentNode.children[0].children[length - 2].children[1].innerHTML = " " + min + " min " + sec + " sec";
             });
 
             let goButton = document.getElementById('btnGo');
@@ -351,6 +351,7 @@ export class MapsPage {
                     if (this.navigation) {
                         this.routing.disableFitSelectedRoutes();
                         this.routing.getControl().setWaypoints([this.user.getLatLng(), this.destination]);
+                        this.bearing.computeDistance(this.user.getLatLng(), this.destination);
                     }
                 }
             }
