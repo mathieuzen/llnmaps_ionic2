@@ -26,7 +26,6 @@ export class Settings {
     setLanguage(lang) {
         this.settings.language = lang;
         this.settingsObserver.next(this.settings);
-        console.log(this.settings);
     }
 
     setDefaultSettings() {

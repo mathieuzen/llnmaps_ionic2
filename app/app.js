@@ -96,10 +96,10 @@ class MyApp {
                 icon: 'information-circle',
                 component: InfoPage
             },
-            {
-                title: 'rate',
-                icon: 'star'
-            }
+//            {
+//                title: 'rate',
+//                icon: 'star'
+//            }
     ];
 
         this.rootPage = MapsPage;
