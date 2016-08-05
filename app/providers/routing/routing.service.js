@@ -56,7 +56,8 @@ export class Routing {
             fitSelectedRoutes: 'true',
             formatter: new L.Routing.Formatter({
                 language: this.translate.currentLang
-            })
+            }),
+            minimizedClassName : "alternative"
         });
         this.control.addTo(map);
         this.control.hide();

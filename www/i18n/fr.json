@@ -21,7 +21,12 @@
     "nl": "Néerlandais",
     "mapsHelp": "Carte interactive de Louvain-la-Neuve.",
     "compassHelp": "Autre vue montrant une boussole pour la navigation.",
+    "itineraryHelp": "Montre l'itinéraire complet pour arriver jusqu'à une destination sous forme de liste indiquant les directions à suivre.",
     "searchHelp": "Ouvre un dialogue permettant de trouver un bâtiment spécifique.",
     "description": "L'objectif de LLN Maps est de vous aider à trouver votre chemin à Louvain-la-Neuve. L'application cible principalement les étudiants avec la localisation des auditoires déjà enregistrée.",
-    "acknowledgment": "LLN Maps fait appel aux projets open source suivants:"
+    "acknowledgment": "LLN Maps fait appel aux projets open source suivants:",
+    "hall": "Auditoire",
+    "shop": "Magasin",
+    "entertainment": "Loisir",
+    "transport": "Transport"
 }

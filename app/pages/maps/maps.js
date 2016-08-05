@@ -202,14 +202,17 @@ export class MapsPage {
             zoomControl: false,
             attributionControl: false,
             fadeAnimation: true,
-            zoomAnimation: true
+            zoomAnimation: true,
+            maxBounds: L.latLngBounds(this.bounds.southEast, this.bounds.northWest),
         }).setView(this.station.getLatLng(), 14);
-
-
+        
+        this.bounds.southEast = [];
+        
         map.on('popupopen', function (e) {
-
             var A = mapsPage.user.getLatLng();
             var B = e.popup._latlng;
+
+            var marker = e.popup._source;
 
             var px = map.project(B);
             px.y -= e.popup._container.clientHeight / 1.5;
@@ -230,11 +233,18 @@ export class MapsPage {
                 goButton.setAttribute("enabled", true);
             }
             goButton.onclick = ((e) => {
+                if (mapsPage.activeMarker) {
+                    mapsPage.cluster.addLayer(mapsPage.activeMarker);
+                    map.removeLayer(mapsPage.activeMarker);
+                }
                 mapsPage.destination = B;
                 routing.getRouteBetween(A, B, map, mapsPage.navigation);
                 mapsPage.navigation = true;
                 mapsPage.footerAnimation = "slideIn";
                 map.closePopup();
+                mapsPage.activeMarker = marker;
+                mapsPage.cluster.removeLayer(marker);
+                map.addLayer(marker);
             });
 
         });
@@ -292,6 +302,10 @@ export class MapsPage {
         this.navigation = false;
         this.map.setView(this.station.getLatLng(), 14);
         this.footerAnimation = "slideOut"
+        if (this.activeMarker) {
+            this.cluster.addLayer(this.activeMarker);
+            this.map.removeLayer(this.activeMarker);
+        }
     }
 
     isInLLN(position) {
