@@ -22,6 +22,7 @@
     "mapsHelp": "Shows interactive maps of Louvain-la-Neuve.",
     "compassHelp": "Another view for navigation showing a compass.",
     "searchHelp": "Opens a modal that let you search for a specific building.",
+    "itineraryHelp":"Shows text itinerary as a list of directions points to follow.",
     "description": "LLN Maps purpose is to help you find your way in Louvain-la-Neuve. The app is mainly targeted to students with preset auditoriums location.",
     "acknowledgment": "LLN Maps makes use of the following open source projects:",
     "hall":"Hall",

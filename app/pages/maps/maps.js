@@ -63,8 +63,8 @@ export class MapsPage {
         this.routing = routing;
         this.bearing = bearing;
         this.bounds = {
-            northWest: [50.687210, 4.580998],
-            southEast: [50.637300, 4.650758]
+            northWest: [50.700, 4.550],
+            southEast: [50.610, 4.660]
         }
         this.settings = {};
         this.settingsService = settings;
@@ -205,10 +205,9 @@ export class MapsPage {
             zoomAnimation: true,
             maxBounds: L.latLngBounds(this.bounds.southEast, this.bounds.northWest),
         }).setView(this.station.getLatLng(), 14);
-        
-        this.bounds.southEast = [];
-        
+
         map.on('popupopen', function (e) {
+
             var A = mapsPage.user.getLatLng();
             var B = e.popup._latlng;
 
@@ -252,7 +251,9 @@ export class MapsPage {
         var layer = new L.tileLayer('img/tiles/{z}/{x}/{y}.jpg', {
             maxZoom: 18,
             minZoom: 13,
-            unloadInvisibleTiles: false
+            unloadInvisibleTiles: false,
+            reuseTiles: true,
+            bounds: L.latLngBounds(this.bounds.southEast, this.bounds.northWest)
         }).addTo(map);
 
         setTimeout(function () {
@@ -273,10 +274,12 @@ export class MapsPage {
         let modal = Modal.create(SearchModal);
         this.nav.present(modal)
         modal.onDismiss(item => {
-            if (item.id != undefined) {
-                this.findMarker(item.id);
-            } else {
-                this.plotStreet(item);
+            if (item != undefined) {
+                if (item.id != undefined) {
+                    this.findMarker(item.id);
+                } else {
+                    this.plotStreet(item);
+                }
             }
         });
     }
