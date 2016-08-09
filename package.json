@@ -34,7 +34,8 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-device-orientation",
-    "cordova-plugin-crosswalk-webview"
+    "cordova-plugin-crosswalk-webview",
+    "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
     "ios",
@@ -42,7 +43,8 @@
       "platform": "ios",
       "version": "",
       "locator": "ios"
-    }
+    },
+    "android"
   ],
   "name": "llnmaps-v2",
   "description": "llnmaps-v2: An Ionic project"
