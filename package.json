@@ -34,8 +34,11 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-device-orientation",
-    "cordova-plugin-crosswalk-webview",
-    "cordova-plugin-geolocation"
+    "cordova-plugin-geolocation",
+    {
+      "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+      "id": "cordova-plugin-insomnia"
+    }
   ],
   "cordovaPlatforms": [
     "ios",

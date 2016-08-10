@@ -118,7 +118,9 @@ class MyApp {
             setTimeout(() => {
                 Splashscreen.hide();
             }, 2000);
-
+            if(window.plugins !== undefined){
+            window.plugins.insomnia.keepAwake();
+            }
         });
     }
 
