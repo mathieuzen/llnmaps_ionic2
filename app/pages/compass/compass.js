@@ -79,7 +79,7 @@ export class CompassModal {
     setLineCompassOrientation(heading) {
         var lineCompass = document.getElementById("north");
         if (lineCompass !== null) {
-            lineCompass.style.backgroundPositionX = (heading / 360 + 0.5) * lineCompass.offsetWidth + "px";
+            lineCompass.style.backgroundPositionX = (-heading / 360 + 0.5) * lineCompass.offsetWidth + "px";
         }
     }
 
