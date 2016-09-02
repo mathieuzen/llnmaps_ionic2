@@ -28,5 +28,6 @@
     "hall": "Auditoire",
     "shop": "Magasin",
     "entertainment": "Loisir",
-    "transport": "Transport"
+    "transport": "Transport",
+    "loading":"Chargement"
 }

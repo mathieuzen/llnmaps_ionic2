@@ -28,5 +28,6 @@
     "hall":"Hall",
     "shop":"Shop",
     "entertainment":"Entertainment",
-    "transport":"Transport"
+    "transport":"Transport",
+    "loading":"Loading"
 }

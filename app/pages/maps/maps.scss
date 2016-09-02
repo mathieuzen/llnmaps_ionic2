@@ -108,3 +108,25 @@ ion-footer {
 .slideOut {
     margin-bottom: -400px;
 }
+
+.loading:after {
+  -webkit-animation: ellipsis steps(4,end) 900ms infinite;
+  animation: ellipsis steps(5,end) 1500ms infinite;
+  width: 0px;
+  content: "\2026";
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 20px;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 20px;
+  }
+}

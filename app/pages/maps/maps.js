@@ -42,7 +42,10 @@ import {
     Popup
 }
 from '../../providers/buildings/popup';
-
+import {
+    TRANSLATE_PROVIDERS, TranslateService, TranslatePipe, TranslateLoader, TranslateStaticLoader
+}
+from 'ng2-translate/ng2-translate';
 @
 Component({
     templateUrl: 'build/pages/maps/maps.html',
@@ -50,9 +53,9 @@ Component({
 })
 export class MapsPage {
     static get parameters() {
-        return [[NavController], [MenuController], [BuildingsService], [NavParams], [Popup], [Routing], [Bearing], [Settings]];
+        return [[NavController], [MenuController], [BuildingsService], [NavParams], [Popup], [Routing], [Bearing], [Settings],[TranslateService]];
     }
-    constructor(nav, menu, buildings, params, popup, routing, bearing, settings) {
+    constructor(nav, menu, buildings, params, popup, routing, bearing, settings, translate) {
         this.nav = nav;
         this.menu = menu;
         this.buildings = buildings;
@@ -62,6 +65,7 @@ export class MapsPage {
         this.markers = {};
         this.routing = routing;
         this.bearing = bearing;
+        this.translate = translate;
         this.bounds = {
             northWest: [50.700, 4.550],
             southEast: [50.610, 4.660]
@@ -218,11 +222,16 @@ export class MapsPage {
             map.panTo(map.unproject(px), {
                 animate: true
             });
+
+            var popupContent = e.popup._contentNode.children[0];
+
+            var length = popupContent.childElementCount;
+            popupContent.children[length - 2].children[1].innerHTML = "<span class='loading'> "+ mapsPage.translate.get('loading').value +"</span>";
+
             routing.getTimeBetween(A, B).then((time) => {
                 var min = Math.floor(time / 60);
                 var sec = Math.floor(time % 60);
-                var length = e.popup._contentNode.children[0].childElementCount;
-                e.popup._contentNode.children[0].children[length - 2].children[1].innerHTML = " " + min + " min " + sec + " sec";
+                popupContent.children[length - 2].children[1].innerHTML = " " + min + " min " + sec + " sec";
             });
 
             let goButton = document.getElementById('btnGo');
