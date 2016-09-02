@@ -345,8 +345,8 @@ export class MapsPage {
 
     startGeolocation(alert) {
         let watchPosition = Geolocation.watchPosition({
-            maximumAge: Infinity,
-            timeout: 15000,
+            maximumAge: 3000,
+            timeout: 20000,
             enableHighAccuracy: true
         });
         watchPosition.subscribe((position) => {

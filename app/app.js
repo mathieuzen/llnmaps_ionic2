@@ -48,11 +48,12 @@ import {
 }
 from 'ng2-translate/ng2-translate';
 import {
-    Component, OnInit, ViewChild, PLATFORM_PIPES
+    Component, OnInit, ViewChild, PLATFORM_PIPES, enableProdMode
 }
 from '@angular/core';
 
 
+enableProdMode();
 
 @
 Component({
@@ -67,8 +68,7 @@ class MyApp {
         return [[App], [Platform], [TranslateService]];
     }
 
-    constructor(app, platform, translate) {
-        this.app = app;
+    constructor(app, platform, translate) {        this.app = app;
         this.platform = platform;
         this.initializeApp();
 

@@ -21,7 +21,7 @@ export class Routing {
     }
 
     constructor(http, translate) {
-        this.server = "http://zensites.no-ip.biz:5000/viaroute";
+        this.server = "https://llnmaps-osrm.herokuapp.com/viaroute";
         this.http = http;
         this.router = L.Routing.osrm({serviceUrl:this.server});
         this.control = null;
