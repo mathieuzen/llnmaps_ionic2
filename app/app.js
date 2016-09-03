@@ -68,7 +68,8 @@ class MyApp {
         return [[App], [Platform], [TranslateService]];
     }
 
-    constructor(app, platform, translate) {        this.app = app;
+    constructor(app, platform, translate) {
+        this.app = app;
         this.platform = platform;
         this.initializeApp();
 
@@ -125,10 +126,18 @@ class MyApp {
     }
 
     openPage(page) {
+
         // Reset the content nav to have just this page
         // we wouldn't want the back button to show in this scenario
-        if (!(page.title === "maps" && this.nav.getActive().instance instanceof MapsPage))
-            this.nav.setRoot(page.component);
+        // if (!(page.title === "maps" && this.nav.getActive().instance instanceof MapsPage)){
+        //     this.nav.setRoot(page.component);
+        // }
+        if(page.title === "maps"){
+          if(!(this.nav.getActive().instance instanceof MapsPage))
+            this.nav.popToRoot({"duration": 300});
+          }
+        else
+          this.nav.push(page.component, {}, {"animate": false});
     }
 }
 

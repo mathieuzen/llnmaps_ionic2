@@ -94,6 +94,7 @@ export class MapsPage {
                 opacity: 0
             });
             this.user = new L.Marker(position).setIcon(userIcon).addTo(map);
+            this.bearing.user = this.user;
             this.bearing.setWatch(this.map, this.user);
         }
 
@@ -210,9 +211,15 @@ export class MapsPage {
             maxBounds: L.latLngBounds(this.bounds.southEast, this.bounds.northWest),
         }).setView(this.station.getLatLng(), 14);
 
+        if(this.bearing.user){
+          this.user = this.bearing.user;
+          this.plotUser(this.user.getLatLng(),map);
+        }
         map.on('popupopen', function (e) {
 
-            var A = mapsPage.user.getLatLng();
+            if(mapsPage.user !== null){
+              var A = mapsPage.user.getLatLng();
+            }
             var B = e.popup._latlng;
 
             var marker = e.popup._source;
@@ -228,25 +235,32 @@ export class MapsPage {
             var length = popupContent.childElementCount;
             popupContent.children[length - 2].children[1].innerHTML = "<span class='loading'> "+ mapsPage.translate.get('loading').value +"</span>";
 
-            routing.getTimeBetween(A, B).then((time) => {
-                var min = Math.floor(time / 60);
-                var sec = Math.floor(time % 60);
-                popupContent.children[length - 2].children[1].innerHTML = " " + min + " min " + sec + " sec";
-            });
-
+            if(A !== null){
+              routing.getTimeBetween(A, B).then((time) => {
+                  var min = Math.floor(time / 60);
+                  var sec = Math.floor(time % 60);
+                  popupContent.children[length - 2].children[1].innerHTML = " " + min + " min " + sec + " sec";
+              });
+              mapsPage.preventNavigation = false;
+            } else {
+              mapsPage.preventNavigation = true;
+            }
             let goButton = document.getElementById('btnGo');
             if (mapsPage.preventNavigation) {
                 goButton.setAttribute("disabled", true);
             } else {
                 goButton.setAttribute("enabled", true);
             }
+
             goButton.onclick = ((e) => {
                 if (mapsPage.activeMarker) {
                     mapsPage.cluster.addLayer(mapsPage.activeMarker);
                     map.removeLayer(mapsPage.activeMarker);
                 }
                 mapsPage.destination = B;
+                if(A !== null){
                 routing.getRouteBetween(A, B, map, mapsPage.navigation);
+                }
                 mapsPage.navigation = true;
                 mapsPage.footerAnimation = "slideIn";
                 map.closePopup();
