@@ -295,6 +295,7 @@ export class MapsPage {
                 map.closePopup();
                 mapsPage.activeMarker = marker;
                 mapsPage.cluster.removeLayer(marker);
+                map.removeLayer(mapsPage.cluster);
                 map.addLayer(marker);
             });
 
@@ -361,6 +362,7 @@ export class MapsPage {
             this.cluster.addLayer(this.activeMarker);
             this.map.removeLayer(this.activeMarker);
         }
+        this.map.addLayer(this.cluster);
     }
 
     isInLLN(position) {
