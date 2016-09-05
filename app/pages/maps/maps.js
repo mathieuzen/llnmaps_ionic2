@@ -1,5 +1,12 @@
 import {
-    Page, Modal, NavController, ViewController, MenuController, NavParams, DynamicComponentLoader, Alert
+    Page,
+    Modal,
+    NavController,
+    ViewController,
+    MenuController,
+    NavParams,
+    DynamicComponentLoader,
+    Alert
 }
 from 'ionic-angular';
 import {
@@ -23,7 +30,9 @@ import {
 }
 from '../../providers/buildings/buildings.service';
 import {
-    Geolocation, DeviceOrientation, Splashscreen
+    Geolocation,
+    DeviceOrientation,
+    Splashscreen
 }
 from 'ionic-native';
 import {
@@ -43,17 +52,35 @@ import {
 }
 from '../../providers/buildings/popup';
 import {
-    TRANSLATE_PROVIDERS, TranslateService, TranslatePipe, TranslateLoader, TranslateStaticLoader
+    TRANSLATE_PROVIDERS,
+    TranslateService,
+    TranslatePipe,
+    TranslateLoader,
+    TranslateStaticLoader
 }
 from 'ng2-translate/ng2-translate';
 @
 Component({
     templateUrl: 'build/pages/maps/maps.html',
-    providers: [[BuildingsService], [Popup], [Routing]]
+    providers: [
+        [BuildingsService],
+        [Popup],
+        [Routing]
+    ]
 })
 export class MapsPage {
     static get parameters() {
-        return [[NavController], [MenuController], [BuildingsService], [NavParams], [Popup], [Routing], [Bearing], [Settings],[TranslateService]];
+        return [
+            [NavController],
+            [MenuController],
+            [BuildingsService],
+            [NavParams],
+            [Popup],
+            [Routing],
+            [Bearing],
+            [Settings],
+            [TranslateService]
+        ];
     }
     constructor(nav, menu, buildings, params, popup, routing, bearing, settings, translate) {
         this.nav = nav;
@@ -87,7 +114,7 @@ export class MapsPage {
             this.settings = settings;
         });
 
-        this.plotUser = function (position, map) {
+        this.plotUser = function(position, map) {
             var userIcon = L.divIcon({
                 html: '<img src="img/arrow.png"/>',
                 className: "user-icon",
@@ -98,12 +125,12 @@ export class MapsPage {
             this.bearing.setWatch(this.map, this.user);
         }
 
-        this.setUserPosition = function (position) {
+        this.setUserPosition = function(position) {
             this.user.setLatLng(position);
         }
 
         this.cluster = L.markerClusterGroup({
-            iconCreateFunction: function (cluster) {
+            iconCreateFunction: function(cluster) {
                 return L.AwesomeMarkers.icon({
                     markerColor: 'darkblue',
                     html: cluster.getChildCount()
@@ -113,10 +140,11 @@ export class MapsPage {
             spiderfyOnMaxZoom: false,
             showCoverageOnHover: false,
             zoomToBoundsOnClick: true,
-            maxClusterRadius: 40
+            maxClusterRadius: 40,
+            removeOutsideVisibleBounds: false
         });
 
-        this.plotBuildings = function (map) {
+        this.plotBuildings = function(map) {
             var mapsPage = this;
             map.addLayer(this.cluster);
             for (let building of this.buildings.getAll()) {
@@ -132,19 +160,20 @@ export class MapsPage {
                     building: building
                 });
 
-                buildingMarker.on('click', function (e) {
+                buildingMarker.on('click', function(e) {
                     mapsPage.activeBuilding = e.target.options.building;
                 });
 
                 buildingMarker.bindPopup(new L.popup({
-                    minWidth: 200
+                    minWidth: 200,
+                    keepInView: true
                 }).setContent(this.popup.getContent(building.id, building.name, building.address)));
                 this.cluster.addLayer(buildingMarker);
                 this.markers[building.id] = buildingMarker;
             }
         }
 
-        this.plotStreet = function (item) {
+        this.plotStreet = function(item) {
             if (this.streetMarker != null) {
                 this.map.removeLayer(this.streetMarker);
             }
@@ -168,7 +197,7 @@ export class MapsPage {
             this.streetMarker.openPopup();
         }
 
-        this.findMarker = function (id) {
+        this.findMarker = function(id) {
             if (activeMarker)
                 activeMarker.closePopup();
             var activeMarker = this.markers[id];
@@ -180,9 +209,9 @@ export class MapsPage {
                 timer = 1500;
             }
             var mapsPage = this;
-            setTimeout(function () {
-                mapsPage.cluster.zoomToShowLayer(activeMarker, function () {
-                    setTimeout(function () {
+            setTimeout(function() {
+                mapsPage.cluster.zoomToShowLayer(activeMarker, function() {
+                    setTimeout(function() {
                         activeMarker.openPopup();
                     }, 500);
                 });
@@ -190,7 +219,7 @@ export class MapsPage {
             this.activeBuilding = activeMarker.options.building;
         }
 
-        this.isNavigationDisabled = function () {
+        this.isNavigationDisabled = function() {
             return this.preventNavigation;
         }
 
@@ -211,21 +240,21 @@ export class MapsPage {
             maxBounds: L.latLngBounds(this.bounds.southEast, this.bounds.northWest),
         }).setView(this.station.getLatLng(), 14);
 
-        if(this.bearing.user){
-          this.user = this.bearing.user;
-          this.plotUser(this.user.getLatLng(),map);
+        if (this.bearing.user) {
+            this.user = this.bearing.user;
+            this.plotUser(this.user.getLatLng(), map);
         }
-        map.on('popupopen', function (e) {
+        map.on('popupopen', function(e) {
 
-            if(mapsPage.user !== null){
-              var A = mapsPage.user.getLatLng();
+            if (mapsPage.user !== null) {
+                var A = mapsPage.user.getLatLng();
             }
             var B = e.popup._latlng;
 
             var marker = e.popup._source;
 
             var px = map.project(B);
-            px.y -= e.popup._container.clientHeight / 1.5;
+            px.y -= e.popup._container.clientHeight / 1.4;
             map.panTo(map.unproject(px), {
                 animate: true
             });
@@ -233,17 +262,17 @@ export class MapsPage {
             var popupContent = e.popup._contentNode.children[0];
 
             var length = popupContent.childElementCount;
-            popupContent.children[length - 2].children[1].innerHTML = "<span class='loading'> "+ mapsPage.translate.get('loading').value +"</span>";
+            popupContent.children[length - 2].children[1].innerHTML = "<span class='loading'> " + mapsPage.translate.get('loading').value + "</span>";
 
-            if(A !== null){
-              routing.getTimeBetween(A, B).then((time) => {
-                  var min = Math.floor(time / 60);
-                  var sec = Math.floor(time % 60);
-                  popupContent.children[length - 2].children[1].innerHTML = " " + min + " min " + sec + " sec";
-              });
-              mapsPage.preventNavigation = false;
+            if (A !== null) {
+                routing.getTimeBetween(A, B).then((time) => {
+                    var min = Math.floor(time / 60);
+                    var sec = Math.floor(time % 60);
+                    popupContent.children[length - 2].children[1].innerHTML = " " + min + " min " + sec + " sec";
+                });
+                mapsPage.preventNavigation = false;
             } else {
-              mapsPage.preventNavigation = true;
+                mapsPage.preventNavigation = true;
             }
             let goButton = document.getElementById('btnGo');
             if (mapsPage.preventNavigation) {
@@ -258,8 +287,8 @@ export class MapsPage {
                     map.removeLayer(mapsPage.activeMarker);
                 }
                 mapsPage.destination = B;
-                if(A !== null){
-                routing.getRouteBetween(A, B, map, mapsPage.navigation);
+                if (A !== null) {
+                    routing.getRouteBetween(A, B, map, mapsPage.navigation);
                 }
                 mapsPage.navigation = true;
                 mapsPage.footerAnimation = "slideIn";
@@ -279,7 +308,7 @@ export class MapsPage {
             bounds: L.latLngBounds(this.bounds.southEast, this.bounds.northWest)
         }).addTo(map);
 
-        setTimeout(function () {
+        setTimeout(function() {
             map.invalidateSize();
         });
 

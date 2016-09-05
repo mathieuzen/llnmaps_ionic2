@@ -32,3 +32,44 @@
 #cancelNav{
   height: 20px !important;
 }
+
+.leaflet-popup-content img{
+  margin-top: 25px;
+}
+
+.leaflet-popup-content p{
+  margin: 8px 0 !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    color: white !important;
+    font-weight: normal !important;
+    top: 10px !important;
+    right: 10px !important;
+    font-size: 20px !important;
+}
+
+
+@media screen and (device-height: 480px) {
+.leaflet-popup-content img{
+  width: 140px !important;
+  max-height: 90px !important;
+  margin-top: 5px !important;
+}
+
+.leaflet-popup-content-wrapper{
+  width: 180px;
+}
+
+.leaflet-popup-content{
+  width: 140px !important;
+}
+
+.leaflet-popup-content p{
+  margin: 6px 0 !important;
+}
+
+#btnGo{
+  height: 35px;
+}
+}

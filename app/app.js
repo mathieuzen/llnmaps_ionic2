@@ -1,11 +1,10 @@
 import {
-    App, ionicBootstrap, Platform, Nav
+    App,
+    ionicBootstrap,
+    Platform,
+    Nav
 }
 from 'ionic-angular';
-import {
-    StatusBar
-}
-from 'ionic-native';
 import {
     MapsPage
 }
@@ -31,7 +30,9 @@ import {
 }
 from './providers/bearing/bearing.service';
 import {
-    Geolocation, Splashscreen
+    Geolocation,
+    Splashscreen,
+    StatusBar
 }
 from 'ionic-native';
 import {
@@ -44,11 +45,19 @@ import {
 }
 from '@angular/http';
 import {
-    TRANSLATE_PROVIDERS, TranslateService, TranslatePipe, TranslateLoader, TranslateStaticLoader
+    TRANSLATE_PROVIDERS,
+    TranslateService,
+    TranslatePipe,
+    TranslateLoader,
+    TranslateStaticLoader
 }
 from 'ng2-translate/ng2-translate';
 import {
-    Component, OnInit, ViewChild, PLATFORM_PIPES, enableProdMode
+    Component,
+    OnInit,
+    ViewChild,
+    PLATFORM_PIPES,
+    enableProdMode
 }
 from '@angular/core';
 
@@ -65,7 +74,11 @@ Component({
 })
 class MyApp {
     static get parameters() {
-        return [[App], [Platform], [TranslateService]];
+        return [
+            [App],
+            [Platform],
+            [TranslateService]
+        ];
     }
 
     constructor(app, platform, translate) {
@@ -73,35 +86,30 @@ class MyApp {
         this.platform = platform;
         this.initializeApp();
 
-        this.modes = [
-            {
-                title: 'maps',
-                icon: 'map',
-                component: MapsPage
-            },
-            {
-                title: 'settings',
-                icon: 'settings',
-                component: SettingsPage
-            },
-    ];
+        this.modes = [{
+            title: 'maps',
+            icon: 'map',
+            component: MapsPage
+        }, {
+            title: 'settings',
+            icon: 'settings',
+            component: SettingsPage
+        }, ];
 
-        this.aboutPages = [
-            {
+        this.aboutPages = [{
                 title: 'help',
                 icon: 'help-circle',
                 component: HelpPage
-            },
-            {
+            }, {
                 title: 'info',
                 icon: 'information-circle',
                 component: InfoPage
             },
-//            {
-//                title: 'rate',
-//                icon: 'star'
-//            }
-    ];
+            //            {
+            //                title: 'rate',
+            //                icon: 'star'
+            //            }
+        ];
 
         this.rootPage = MapsPage;
 
@@ -115,12 +123,12 @@ class MyApp {
         this.platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
-            StatusBar.styleDefault();
+            StatusBar.styleLightContent();
             setTimeout(() => {
                 Splashscreen.hide();
             }, 2000);
-            if(window.plugins !== undefined){
-            window.plugins.insomnia.keepAwake();
+            if (window.plugins !== undefined) {
+                window.plugins.insomnia.keepAwake();
             }
         });
     }
@@ -132,17 +140,28 @@ class MyApp {
         // if (!(page.title === "maps" && this.nav.getActive().instance instanceof MapsPage)){
         //     this.nav.setRoot(page.component);
         // }
-        if(page.title === "maps"){
-          if(!(this.nav.getActive().instance instanceof MapsPage))
-            this.nav.popToRoot({"duration": 300});
-          }
-        else
-          this.nav.push(page.component, {}, {"animate": false});
+        if (page.title === "maps") {
+            if (!(this.nav.getActive().instance instanceof MapsPage))
+                this.nav.popToRoot({
+                    "duration": 300
+                });
+        } else
+            this.nav.push(page.component, {}, {
+                "animate": false
+            });
     }
 }
 
-ionicBootstrap(MyApp, [[Routing], [Geolocation], [Bearing], [Settings], [HTTP_PROVIDERS], [TRANSLATE_PROVIDERS], [{
-    provide: PLATFORM_PIPES,
-    useValue: TranslatePipe,
-    multi: true
-}]], {});
+ionicBootstrap(MyApp, [
+    [Routing],
+    [Geolocation],
+    [Bearing],
+    [Settings],
+    [HTTP_PROVIDERS],
+    [TRANSLATE_PROVIDERS],
+    [{
+        provide: PLATFORM_PIPES,
+        useValue: TranslatePipe,
+        multi: true
+    }]
+], {});

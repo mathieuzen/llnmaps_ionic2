@@ -53,7 +53,6 @@ export class CompassModal {
         this.bearing.setDestination(this.destination);
         this.bearing.valueWatch.subscribe(value => {
             this.compassRotation = value - this.bearing.rotation;
-            console.log(this.compassRotation);
         });
         this.bearing.getBearing();
         this.bearing.computeDistance(this.bearing.user.getLatLng(), this.destination);
