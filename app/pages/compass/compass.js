@@ -1,5 +1,9 @@
 import {
-    Page, Modal, NavController, ViewController, NavParams
+    Page,
+    Modal,
+    NavController,
+    ViewController,
+    NavParams
 }
 from 'ionic-angular';
 import {
@@ -22,7 +26,11 @@ Component({
 })
 export class CompassModal {
     static get parameters() {
-        return [[ViewController], [NavParams], [Bearing]];
+        return [
+            [ViewController],
+            [NavParams],
+            [Bearing]
+        ];
     }
     constructor(viewCtrl, params, bearing) {
         this.viewCtrl = viewCtrl;
@@ -44,7 +52,8 @@ export class CompassModal {
         }
         this.bearing.setDestination(this.destination);
         this.bearing.valueWatch.subscribe(value => {
-                this.compassRotation = value - this.bearing.rotation;
+            this.compassRotation = value - this.bearing.rotation;
+            console.log(this.compassRotation);
         });
         this.bearing.getBearing();
         this.bearing.computeDistance(this.bearing.user.getLatLng(), this.destination);

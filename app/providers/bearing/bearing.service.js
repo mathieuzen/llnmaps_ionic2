@@ -21,7 +21,7 @@ export class Bearing {
         this.position = null;
         this.map = null;
         this.user = null;
-        this.rotation = null;
+        this.rotation = 0;
         this.noCompass = true;
         this.options = {
             frequency: 1000
@@ -38,6 +38,8 @@ export class Bearing {
     setWatch(map, user) {
         this.map = map;
         this.user = user;
+        var bearing = this;
+
         if (window.cordova) {
             this.watch = DeviceOrientation.watchHeading(this.options).subscribe((heading) => {
                 this.cssRotation(heading.magneticHeading);
