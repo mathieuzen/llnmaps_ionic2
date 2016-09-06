@@ -282,6 +282,7 @@ export class MapsPage {
             }
 
             goButton.onclick = ((e) => {
+                mapsPage.activeMarker = marker;
                 if (mapsPage.activeMarker) {
                     mapsPage.cluster.addLayer(mapsPage.activeMarker);
                     map.removeLayer(mapsPage.activeMarker);
@@ -293,10 +294,10 @@ export class MapsPage {
                 mapsPage.navigation = true;
                 mapsPage.footerAnimation = "slideIn";
                 map.closePopup();
-                mapsPage.activeMarker = marker;
                 mapsPage.cluster.removeLayer(marker);
-                map.removeLayer(mapsPage.cluster);
+                //map.removeLayer(mapsPage.cluster);
                 map.addLayer(marker);
+                mapsPage.setMarkersVisible(false);
             });
 
         });
@@ -356,13 +357,17 @@ export class MapsPage {
     cancelNavigation() {
         this.map.removeControl(this.routing.getControl());
         this.navigation = false;
-        this.map.setView(this.station.getLatLng(), 14);
+        this.setMarkersVisible(true);
         this.footerAnimation = "slideOut"
-        if (this.activeMarker) {
-            this.cluster.addLayer(this.activeMarker);
-            this.map.removeLayer(this.activeMarker);
-        }
-        this.map.addLayer(this.cluster);
+        var mapsPage = this;
+        setTimeout(function() {
+            mapsPage.map.setView(mapsPage.station.getLatLng(), 14);
+            if (mapsPage.activeMarker) {
+                mapsPage.map.removeLayer(mapsPage.activeMarker);
+                mapsPage.cluster.addLayer(mapsPage.activeMarker);
+            }
+            //mapsPage.map.addLayer(mapsPage.cluster);
+        }, 1000);
     }
 
     isInLLN(position) {
@@ -395,6 +400,26 @@ export class MapsPage {
         setTimeout(() => {
             this.nav.present(alert);
         }, 2000);
+    }
+
+    setMarkersVisible(visible) {
+        var activeMarker = this.activeMarker;
+        var markers = document.getElementsByClassName("awesome-marker");
+        if (!visible) {
+            setTimeout(function() {
+                for (var marker of markers) {
+                    if (marker.style.transform !== activeMarker._icon.style.transform) {
+                        marker.className += " hide-marker";
+                    }
+                }
+            }, 1000);
+        } else {
+            for (var marker of markers) {
+                if (marker.style.transform !== activeMarker._icon.style.transform) {
+                    marker.className = marker.className.replace(" hide-marker", "");
+                }
+            }
+        }
     }
 
     startGeolocation(alert) {
