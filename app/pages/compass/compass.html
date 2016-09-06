@@ -11,7 +11,7 @@
 
     <ion-card style="height:95%;">
 
-        <ion-item *ngIf="building.id" style="height: 20%;">
+        <ion-item class="destination-info" *ngIf="building.id" style="height: 20%;">
             <ion-thumbnail item-left>
                 <img style="max-width: 14rem; max-height: 10rem;" src="img/buildings/{{building.id}}.jpg">
             </ion-thumbnail>
@@ -19,11 +19,11 @@
             <p>{{building.address}}</p>
         </ion-item>
 
-        <ion-item *ngIf="!building.id" style="height: 20%;">
+        <ion-item class="destination-info" *ngIf="!building.id" style="height: 20%;">
             <h3 style="text-align: center;">{{building.name}}</h3>
         </ion-item>
 
-        <ion-card-content id="compass-card" style="position: relative; height: 70%; border-bottom: 1px solid lightgrey; border-top: 1px solid lightgrey;">
+        <ion-card-content id="compass-card" style="position: relative; height: 60%;">
             <div id="compass-container">
                 <div class="compass">
                     <div class="cell">
@@ -34,6 +34,17 @@
                 </div>
             </div>
         </ion-card-content>
+
+        <ion-row class="travel-info" style="height: 10%">
+          <div class="arrival-indicator">
+            <img class="flag" src="img/startflag.png"/>
+            <span id="walker" [style.left]="walkerPosition">
+            <ion-icon name="walk"></ion-icon>
+          </span>
+            <span class="line"></span>
+            <img class="flag" src="img/finishflag.png"/>
+          </div>
+        </ion-row>
 
         <ion-row style="height: 10%;">
 <!--            <ion-col bottom>

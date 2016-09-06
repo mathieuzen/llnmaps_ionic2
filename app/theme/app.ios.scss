@@ -49,6 +49,22 @@
     font-size: 20px !important;
 }
 
+.awesome-marker {
+    z-index: 1;
+    -webkit-transition: 0.5s ease-in-out;
+    -moz-transition: 0.5s ease-in-out;
+    -o-transition: 0.5s ease-in-out;
+    transition: 0.5s ease-in-out;
+    -webkit-animation: none !important;
+    animation: none !important;
+}
+
+.hide-marker{
+  -webkit-animation: none !important;
+  animation: none !important;
+  pointer-events: none;
+}
+
 
 @media screen and (device-height: 480px) {
 .leaflet-popup-content img{

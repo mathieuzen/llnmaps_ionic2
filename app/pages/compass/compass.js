@@ -57,7 +57,8 @@ export class CompassModal {
         this.bearing.getBearing();
         this.bearing.computeDistance(this.bearing.user.getLatLng(), this.destination);
         this.distance = this.bearing.distance;
-
+        this.walkerPosition = "18%";
+        this.oldDistance = this.distance;
     }
     close() {
         this.viewCtrl.dismiss();
@@ -72,6 +73,7 @@ export class CompassModal {
         });
         this.bearing.distanceWatch.subscribe(distance => {
             this.distance = distance;
+            this.setWalkerPosition(distance);
         });
 
         var compassCard = document.getElementById("compass-card");
@@ -91,6 +93,15 @@ export class CompassModal {
         }
     }
 
+    setWalkerPosition(distance) {
+        var covered = 1 - distance / this.oldDistance;
+        if (covered < 0)
+            covered = 0;
+        else if (covered > 1)
+            covered = 1;
+        covered = covered * (82 - 18);
+        this.walkerPosition = 18 + covered + "%"
+    }
 
 
 }

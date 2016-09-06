@@ -6,7 +6,8 @@ import {
     MenuController,
     NavParams,
     DynamicComponentLoader,
-    Alert
+    Alert,
+    Platform
 }
 from 'ionic-angular';
 import {
@@ -79,10 +80,11 @@ export class MapsPage {
             [Routing],
             [Bearing],
             [Settings],
-            [TranslateService]
+            [TranslateService],
+            [Platform]
         ];
     }
-    constructor(nav, menu, buildings, params, popup, routing, bearing, settings, translate) {
+    constructor(nav, menu, buildings, params, popup, routing, bearing, settings, translate, platform) {
         this.nav = nav;
         this.menu = menu;
         this.buildings = buildings;
@@ -93,6 +95,7 @@ export class MapsPage {
         this.routing = routing;
         this.bearing = bearing;
         this.translate = translate;
+        this.platform = platform;
         this.bounds = {
             northWest: [50.700, 4.550],
             southEast: [50.610, 4.660]
@@ -295,9 +298,12 @@ export class MapsPage {
                 mapsPage.footerAnimation = "slideIn";
                 map.closePopup();
                 mapsPage.cluster.removeLayer(marker);
-                //map.removeLayer(mapsPage.cluster);
                 map.addLayer(marker);
-                mapsPage.setMarkersVisible(false);
+                if (!mapsPage.platform.is('ios')) {
+                    mapsPage.setMarkersVisible(false);
+                } else {
+                    mapsPage.map.removeLayer(mapsPage.cluster);
+                }
             });
 
         });
@@ -357,17 +363,16 @@ export class MapsPage {
     cancelNavigation() {
         this.map.removeControl(this.routing.getControl());
         this.navigation = false;
-        this.setMarkersVisible(true);
         this.footerAnimation = "slideOut"
         var mapsPage = this;
+        mapsPage.map.addLayer(mapsPage.cluster);
         setTimeout(function() {
             mapsPage.map.setView(mapsPage.station.getLatLng(), 14);
             if (mapsPage.activeMarker) {
                 mapsPage.map.removeLayer(mapsPage.activeMarker);
                 mapsPage.cluster.addLayer(mapsPage.activeMarker);
             }
-            //mapsPage.map.addLayer(mapsPage.cluster);
-        }, 1000);
+        }, 500);
     }
 
     isInLLN(position) {
@@ -403,20 +408,26 @@ export class MapsPage {
     }
 
     setMarkersVisible(visible) {
+        var mapsPage = this;
         var activeMarker = this.activeMarker;
         var markers = document.getElementsByClassName("awesome-marker");
         if (!visible) {
-            setTimeout(function() {
-                for (var marker of markers) {
-                    if (marker.style.transform !== activeMarker._icon.style.transform) {
-                        marker.className += " hide-marker";
+            for (var marker in markers) {
+                if (markers[marker].tagName == 'DIV') {
+                    if (markers[marker].style.transform !== activeMarker._icon.style.transform) {
+                        markers[marker].className += " hide-marker";
                     }
                 }
-            }, 1000);
+            }
+            setTimeout(function() {
+                mapsPage.map.removeLayer(mapsPage.cluster);
+            }, 500);
         } else {
-            for (var marker of markers) {
-                if (marker.style.transform !== activeMarker._icon.style.transform) {
-                    marker.className = marker.className.replace(" hide-marker", "");
+            for (var marker in markers) {
+                if (markers[marker].tagName == 'DIV') {
+                    if (markers[marker].style.transform !== activeMarker._icon.style.transform) {
+                        markers[marker].className = marker.className.replace(" hide-marker", "");
+                    }
                 }
             }
         }
