@@ -60,7 +60,10 @@ import {
     enableProdMode
 }
 from '@angular/core';
-
+import {
+    DiagnosticService
+}
+from './providers/diagnostic/diagnostic.service';
 
 enableProdMode();
 
@@ -77,15 +80,16 @@ class MyApp {
         return [
             [App],
             [Platform],
-            [TranslateService]
+            [TranslateService],
+            [DiagnosticService]
         ];
     }
 
-    constructor(app, platform, translate) {
+    constructor(app, platform, translate, diagnostic) {
         this.app = app;
         this.platform = platform;
+        this.diagnostic = diagnostic;
         this.initializeApp();
-
         this.modes = [{
             title: 'maps',
             icon: 'map',
@@ -116,7 +120,6 @@ class MyApp {
         var userLang = navigator.language.split('-')[0];
         translate.setDefaultLang('en');
         translate.use(userLang);
-
     }
 
     initializeApp() {
@@ -163,5 +166,6 @@ ionicBootstrap(MyApp, [
         provide: PLATFORM_PIPES,
         useValue: TranslatePipe,
         multi: true
-    }]
+    }],
+    [DiagnosticService]
 ], {});

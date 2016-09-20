@@ -39,7 +39,8 @@
       "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
       "id": "cordova-plugin-insomnia"
     },
-    "cordova-plugin-crosswalk-webview"
+    "cordova-plugin-crosswalk-webview",
+    "cordova.plugins.diagnostic"
   ],
   "cordovaPlatforms": [
     "ios",

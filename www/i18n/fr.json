@@ -29,5 +29,9 @@
     "shop": "Magasin",
     "entertainment": "Loisir",
     "transport": "Transport",
-    "loading":"Chargement"
+    "loading":"Chargement",
+    "promptGPSTitle":"GPS désactivé",
+    "promptGPSMsg":"Atteindre la page des options de localisation pour activer le GPS ?",
+    "yes": "Oui",
+    "no" : "Non"
 }

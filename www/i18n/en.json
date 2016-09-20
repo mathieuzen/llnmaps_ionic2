@@ -29,5 +29,9 @@
     "shop":"Shop",
     "entertainment":"Entertainment",
     "transport":"Transport",
-    "loading":"Loading"
+    "loading":"Loading",
+    "promptGPSTitle":"GPS disabled",
+    "promptGPSMsg":"Switch to location settings in order to enable GPS on your device ?",
+    "yes": "Yes",
+    "no" : "No"
 }

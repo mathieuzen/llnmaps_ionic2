@@ -49,6 +49,10 @@ import {
 }
 from '../../providers/settings/settings.service';
 import {
+    DiagnosticService
+}
+from '../../providers/diagnostic/diagnostic.service';
+import {
     Popup
 }
 from '../../providers/buildings/popup';
@@ -81,10 +85,11 @@ export class MapsPage {
             [Bearing],
             [Settings],
             [TranslateService],
-            [Platform]
+            [Platform],
+            [DiagnosticService]
         ];
     }
-    constructor(nav, menu, buildings, params, popup, routing, bearing, settings, translate, platform) {
+    constructor(nav, menu, buildings, params, popup, routing, bearing, settings, translate, platform, diagnostic) {
         this.nav = nav;
         this.menu = menu;
         this.buildings = buildings;
@@ -94,6 +99,7 @@ export class MapsPage {
         this.markers = {};
         this.routing = routing;
         this.bearing = bearing;
+        this.diagnostic = diagnostic;
         this.translate = translate;
         this.platform = platform;
         this.bounds = {
@@ -115,6 +121,14 @@ export class MapsPage {
         //observe changes in settings
         this.settingsService.settingsChange.subscribe((settings) => {
             this.settings = settings;
+        });
+
+        document.addEventListener('pause', () => {
+            console.log("pause");
+        });
+        document.addEventListener('resume', () => {
+            console.log("resume");
+            this.startGeolocation();
         });
 
         this.plotUser = function(position, map) {
@@ -229,6 +243,16 @@ export class MapsPage {
     }
 
     ngOnInit() {
+        //requesting GPS on android device
+        if (this.platform.is("android")) {
+            this.diagnostic.requestGPS().then((res) => {
+                if (res !== null) {
+                    setTimeout(() => {
+                        this.nav.present(res);
+                    }, 2000);
+                }
+            });
+        }
 
         var mapsPage = this;
 
@@ -322,10 +346,10 @@ export class MapsPage {
 
         this.menu.swipeEnable(false);
 
-        this.startGeolocation(true);
-
         this.map = map;
         this.plotBuildings(map);
+
+        this.startGeolocation();
 
     }
 
@@ -433,7 +457,7 @@ export class MapsPage {
         }
     }
 
-    startGeolocation(alert) {
+    startGeolocation() {
         let watchPosition = Geolocation.watchPosition({
             maximumAge: 3000,
             timeout: 20000,
