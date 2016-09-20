@@ -2,7 +2,8 @@ import {
     App,
     ionicBootstrap,
     Platform,
-    Nav
+    Nav,
+    MenuController
 }
 from 'ionic-angular';
 import {
@@ -81,14 +82,16 @@ class MyApp {
             [App],
             [Platform],
             [TranslateService],
-            [DiagnosticService]
+            [DiagnosticService],
+            [MenuController]
         ];
     }
 
-    constructor(app, platform, translate, diagnostic) {
+    constructor(app, platform, translate, diagnostic, menu) {
         this.app = app;
         this.platform = platform;
         this.diagnostic = diagnostic;
+        this.menu = menu;
         this.initializeApp();
         this.modes = [{
             title: 'maps',
@@ -152,6 +155,14 @@ class MyApp {
             this.nav.push(page.component, {}, {
                 "animate": false
             });
+    }
+
+    menuClosed() {
+      this.menu.swipeEnable(false);
+    }
+
+    menuOpened() {
+      this.menu.swipeEnable(true);
     }
 }
 

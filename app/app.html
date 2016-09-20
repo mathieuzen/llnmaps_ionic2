@@ -1,4 +1,4 @@
-<ion-menu id="menu" [content]="content" drag-content="false" persistent="true">
+<ion-menu id="menu" [content]="content" drag-content="false" persistent="true" (ionOpen)="menuOpened()" (ionClose)="menuClosed()">
 
     <ion-toolbar id="menu-toolbar" primary>
         <img class="logo" src="img/icon.png"/>

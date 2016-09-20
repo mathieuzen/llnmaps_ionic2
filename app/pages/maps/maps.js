@@ -8,7 +8,7 @@ import {
     DynamicComponentLoader,
     Alert,
     Platform
-}
+  }
 from 'ionic-angular';
 import {
     Component
@@ -86,7 +86,7 @@ export class MapsPage {
             [Settings],
             [TranslateService],
             [Platform],
-            [DiagnosticService]
+            [DiagnosticService],
         ];
     }
     constructor(nav, menu, buildings, params, popup, routing, bearing, settings, translate, platform, diagnostic) {
@@ -254,6 +254,9 @@ export class MapsPage {
             });
         }
 
+        this.menu.swipeEnable(false);
+
+
         var mapsPage = this;
 
         var routing = this.routing;
@@ -343,8 +346,6 @@ export class MapsPage {
         setTimeout(function() {
             map.invalidateSize();
         });
-
-        this.menu.swipeEnable(false);
 
         this.map = map;
         this.plotBuildings(map);
