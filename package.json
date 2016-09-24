@@ -32,7 +32,6 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard",
     "cordova-plugin-device-orientation",
     "cordova-plugin-geolocation",
     {
@@ -40,7 +39,8 @@
       "id": "cordova-plugin-insomnia"
     },
     "cordova-plugin-crosswalk-webview",
-    "cordova.plugins.diagnostic"
+    "cordova.plugins.diagnostic",
+    "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [
     "ios",
