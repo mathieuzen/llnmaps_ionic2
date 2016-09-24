@@ -121,6 +121,7 @@ class MyApp {
         this.rootPage = MapsPage;
 
         var userLang = navigator.language.split('-')[0];
+        userLang = /(fr|en)/gi.test(userLang) ? userLang : 'en';
         translate.setDefaultLang('en');
         translate.use(userLang);
     }
